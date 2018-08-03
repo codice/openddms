@@ -20,7 +20,7 @@ data class SrsAttributes @JvmOverloads constructor(
     val uomLabels: List<String> = emptyList()
 ) {
     override fun toString(): String {
-        val sb = StringBuffer()
+        val sb = StringBuilder()
         if (srsName.isNotBlank())
             sb.append("srsName=\"$srsName\"")
         if (srsDimension > 0)
