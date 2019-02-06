@@ -14,6 +14,7 @@
 package org.codice.ddms.xml.util
 
 import org.codice.ddms.xml.util.XmlConstants.xlinkNamespace
+import javax.xml.stream.XMLStreamReader
 import javax.xml.stream.XMLStreamWriter
 
 fun XMLStreamWriter.namespace(prefix: String, uri: String) {
@@ -44,3 +45,12 @@ fun XMLStreamWriter.emptyElement(namespaceUri: String, prefix: String, name: Str
 }
 
 fun XMLStreamWriter.xlinkAttribute(name: String, value: String) = writeAttribute(xlinkNamespace, name, value)
+
+/**
+ * Pass through to nextTag() but includes the name of the next tag for documenting / logging
+ * instead of having to make a comment
+ *
+ * @param documentedTag The name of what the next tag should be.
+ */
+@Suppress("UnusedPrivateMember") // TODO: I think we should keep suppressing this one, or we could log it
+fun XMLStreamReader.nextTag(documentedTag: String) = nextTag()

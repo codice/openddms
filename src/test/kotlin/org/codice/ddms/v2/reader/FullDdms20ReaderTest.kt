@@ -13,12 +13,13 @@
  */
 package org.codice.ddms.v2.reader
 
+import org.codice.ddms.DdmsDate
 import org.codice.ddms.DdmsResource
-import org.codice.ddms.v2.builder.contact
-import org.codice.ddms.v2.builder.geospatialCoverage
-import org.codice.ddms.v2.builder.relatedResources
-import org.codice.ddms.v2.builder.securityAttributes
-import org.codice.ddms.v2.builder.subjectCoverage
+import org.codice.ddms.v2.builder.resource.ContactBuilder.Companion.contact
+import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder.Companion.securityAttributes
+import org.codice.ddms.v2.builder.summary.GeospatialCoverageBuilder.Companion.geospatialCoverage
+import org.codice.ddms.v2.builder.summary.RelatedResourcesBuilder.Companion.relatedResources
+import org.codice.ddms.v2.builder.summary.SubjectCoverageBuilder.Companion.subjectCoverage
 import org.codice.ddms.v2.format.Extent
 import org.codice.ddms.v2.format.Format
 import org.codice.ddms.v2.resource.Dates
@@ -44,7 +45,7 @@ import javax.xml.stream.XMLInputFactory
 class FullDdms20ReaderTest {
     private val ddms20: DdmsResource
 
-    private val time = "2017-11-02T10:55:24.225-07:00"
+    private val time = DdmsDate("2017-11-02T10:55:24.225-07:00")
 
     private val securityAttributes = securityAttributes {
         classification(Classification.U)
@@ -60,11 +61,11 @@ class FullDdms20ReaderTest {
         derivativelyClassifiedBy("derivativelyClassifiedBy")
         classificationReason("classificationReason")
         derivedFrom("derivedFrom")
-        declassDate("2017-11-02")
+        declassDate(DdmsDate("2017-11-02"))
         declassEvent("declassEvent")
         declassException("declassException")
         typeOfExemptedSource("typeOfExemptedSource")
-        dateOfExemptedSource("2017-11-02")
+        dateOfExemptedSource(DdmsDate("2017-11-02"))
         declassManualReview(true)
     }
 
@@ -111,7 +112,7 @@ class FullDdms20ReaderTest {
 
     @Test
     fun `has rights`() {
-        assertThat(ddms20.rights, equalTo(Rights(true, true, true)))
+        assertThat(ddms20.rights, equalTo(Rights(privacyAct = true, intellectualProperty = true, copyright = true)))
     }
 
     @Test

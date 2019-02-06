@@ -17,9 +17,11 @@ import org.codice.ddms.Builder
 import org.codice.ddms.gml.v3.Position
 import org.codice.ddms.gml.v3.SrsAttributes
 
-fun position(init: PositionBuilder.() -> Unit) = PositionBuilder().apply(init).build()
-
 class PositionBuilder : Builder<Position> {
+    companion object {
+        fun position(init: PositionBuilder.() -> Unit) = PositionBuilder().apply(init).build()
+    }
+
     private val points: ArrayList<Double> = arrayListOf()
     private var srsAttributes: SrsAttributes = SrsAttributes()
 

@@ -13,34 +13,17 @@
  */
 package org.codice.ddms.v2.resource
 
-import org.codice.ddms.DateFormat
+import org.codice.ddms.DdmsDate
 
 data class Dates(
-    val created: String = "",
-    val posted: String = "",
-    val validTil: String = "",
-    val infoCutOff: String = ""
+    val created: DdmsDate? = null,
+    val posted: DdmsDate? = null,
+    val validTil: DdmsDate? = null,
+    val infoCutOff: DdmsDate? = null
 ) {
     init {
-        if (created.isNotBlank()) {
-            require(DateFormat.isValid(created)) {
-                "ddms:dates created is an invalid date"
-            }
-        }
-        if (posted.isNotBlank()) {
-            require(DateFormat.isValid(posted)) {
-                "ddms:dates posted is an invalid date"
-            }
-        }
-        if (validTil.isNotBlank()) {
-            require(DateFormat.isValid(validTil)) {
-                "ddms:dates validTil is an invalid date"
-            }
-        }
-        if (infoCutOff.isNotBlank()) {
-            require(DateFormat.isValid(infoCutOff)) {
-                "ddms:dates infoCutOff is an invalid date"
-            }
+        require(created !== null || posted !== null || validTil !== null || infoCutOff !== null) {
+            "ddms:dates must have at least one non null date"
         }
     }
 }

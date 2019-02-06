@@ -24,7 +24,9 @@ data class RelatedResources(
     enum class Direction {
         Outbound,
         Inbound,
-        Bidirectional
+        Bidirectional;
+
+        override fun toString(): String = name.toLowerCase()
     }
 }
 
@@ -46,5 +48,10 @@ data class Link(
     val title: String = "",
     val label: String = ""
 ) {
+    init {
+        require(href.isNotBlank()) {
+            "ddms:link must have a non blank href"
+        }
+    }
     val type = "locator"
 }

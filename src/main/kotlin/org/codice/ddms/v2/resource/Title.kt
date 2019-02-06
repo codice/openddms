@@ -21,11 +21,14 @@ data class Title(
     val value: String
 ) {
     init {
+        require(value.isNotBlank()) {
+            "ddms:title and ddms:subtitle must have a non blank value"
+        }
         with(securityAttributes) {
             require(classification != Classification.NO_CLASSIFICATION) {
-                "ddms:title and ddms:subtitle must contain a ism:classification"
+                "ddms:title and ddms:subtitle must contain an ism:classification"
             }
-            require(ownerProducer.isNotEmpty() && ownerProducer.any { it.isNotBlank() }) {
+            require(ownerProducer.any { it.isNotBlank() }) {
                 "ddms:title and ddms:subtitle must contain at least one ism:ownerProducer"
             }
         }

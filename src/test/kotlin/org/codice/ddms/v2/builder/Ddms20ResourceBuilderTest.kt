@@ -13,6 +13,7 @@
  */
 package org.codice.ddms.v2.builder
 
+import org.codice.ddms.DdmsDate
 import org.codice.ddms.v2.Ddms20Resource
 import org.codice.ddms.v2.format.Extent
 import org.codice.ddms.v2.format.Format
@@ -41,9 +42,9 @@ import org.junit.Test
 import java.time.OffsetDateTime
 
 class Ddms20ResourceBuilderTest {
-    private val date = OffsetDateTime.now().toString()
+    private val date = DdmsDate(OffsetDateTime.now().toString())
 
-    val ddms20 = Ddms20Resource(
+    private val ddms20 = Ddms20Resource(
             listOf(Identifier("qualifier", "value")),
             listOf(Title(SecurityAttributes(Classification.U, listOf("USA")), "Title")),
             SubjectCoverage(listOf(), listOf("keywords")),
@@ -254,7 +255,7 @@ class Ddms20ResourceBuilderTest {
                 .subtitles(ddms20.subtitles)
                 .description(ddms20.description!!)
                 .languages(ddms20.languages)
-                .dates(date, "", "", "")
+                .dates(Dates(date))
                 .rights(ddms20.rights!!)
                 .sources(ddms20.sources)
                 .types(ddms20.types)
@@ -283,7 +284,7 @@ class Ddms20ResourceBuilderTest {
                 .description(ddms20.description!!)
                 .languages(ddms20.languages)
                 .dates(ddms20.dates!!)
-                .rights(true, false, false)
+                .rights(privacyAct = true, intellectualProperty = false, copyright = false)
                 .sources(ddms20.sources)
                 .types(ddms20.types)
                 .creators(ddms20.creators)
@@ -574,7 +575,7 @@ class Ddms20ResourceBuilderTest {
                 .pointOfContacts(ddms20.pointOfContacts)
                 .format(ddms20.format!!)
                 .virtualCoverages(ddms20.virtualCoverages)
-                .temporalCoverage("name", "Unknown", "Unknown")
+                .temporalCoverage("name", DdmsDate.unknown, DdmsDate.unknown)
                 .geospatialCoverages(ddms20.geospatialCoverages)
                 .relatedResources(ddms20.relatedResources)
                 .build()
@@ -671,7 +672,7 @@ class Ddms20ResourceBuilderTest {
 
     @Test
     fun `building with lambda`() {
-        val result = ddms20 {
+        val result = Ddms20ResourceBuilder.ddms20 {
             identifiers(ddms20.identifiers)
             titles(ddms20.titles)
             subjectCoverage(ddms20.subjectCoverage)

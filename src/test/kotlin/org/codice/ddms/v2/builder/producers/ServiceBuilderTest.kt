@@ -34,7 +34,7 @@ class ServiceBuilderTest {
 
     @Test
     fun `building with lambda`() {
-        val result = service {
+        val result = ServiceBuilder.service {
             names(service.names)
             phones(service.phones)
             emails(service.emails)

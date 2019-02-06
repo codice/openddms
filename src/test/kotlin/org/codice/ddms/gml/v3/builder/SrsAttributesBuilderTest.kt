@@ -38,7 +38,7 @@ class SrsAttributesBuilderTest {
 
     @Test
     fun `building with lambda`() {
-        val result = srsAttributes {
+        val result = SrsAttributesBuilder.srsAttributes {
             srsName(srsAttributes.srsName)
             srsDimension(srsAttributes.srsDimension)
             axisLabels(srsAttributes.axisLabels)

@@ -23,9 +23,9 @@ data class Description(
     init {
         with(securityAttributes) {
             require(classification != Classification.NO_CLASSIFICATION) {
-                "ddms:description must contain a ism:classification"
+                "ddms:description must contain an ism:classification"
             }
-            require(ownerProducer.isNotEmpty() && ownerProducer.any { it.isNotBlank() }) {
+            require(ownerProducer.any { it.isNotBlank() }) {
                 "ddms:description must contain at least one ism:ownerProducer"
             }
         }

@@ -13,11 +13,17 @@
  */
 package org.codice.ddms.v2.reader
 
+import org.codice.ddms.DdmsDate
 import org.codice.ddms.DdmsReader
 import org.codice.ddms.DdmsResource
+import org.codice.ddms.gml.v3.SrsAttributes
+import org.codice.ddms.gml.v3.builder.SrsAttributesBuilder
 import org.codice.ddms.v2.builder.Ddms20ResourceBuilder
-import org.codice.ddms.v2.builder.SecurityAttributeBuilder
-import org.codice.ddms.v2.builder.contact
+import org.codice.ddms.v2.builder.producers.ProducerBuilder
+import org.codice.ddms.v2.builder.resource.ContactBuilder
+import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder
+import org.codice.ddms.v2.builder.summary.GeospatialCoverageBuilder
+import org.codice.ddms.v2.builder.summary.geospatial.BoundingGeometryBuilder
 import org.codice.ddms.v2.format.Extent
 import org.codice.ddms.v2.resource.Contact
 import org.codice.ddms.v2.resource.Title
@@ -29,15 +35,15 @@ import org.codice.ddms.v2.summary.RelatedResources
 import org.codice.ddms.v2.summary.geospatial.Datum
 import org.codice.ddms.v2.summary.geospatial.UnitOfMeasure
 import org.codice.ddms.v2.summary.geospatial.VerticalDistance
-import org.codice.ddms.gml.v3.SrsAttributes
-import org.codice.ddms.gml.v3.builder.srsAttributes
 import org.codice.ddms.xml.util.XmlConstants
+import org.codice.ddms.xml.util.nextTag
 import org.slf4j.LoggerFactory
 import javax.xml.stream.XMLStreamConstants
 import javax.xml.stream.XMLStreamReader
 
 private const val DDMS_20_NAMESPACE = "http://metadata.dod.mil/mdr/ns/DDMS/2.0/"
 
+@Suppress("LargeClass", "TooManyFunctions") // TODO: Could break this up into logical parts to make this 'smaller'
 class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStreamReader by reader {
     private val logger = LoggerFactory.getLogger(Ddms20XmlReader::class.java)
 
@@ -112,23 +118,15 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
     }
 
     private fun getContact(): Contact {
-        return contact {
+        return ContactBuilder.contact {
             securityAttributes(getSecurityAttributes())
-            nextTag()
+            nextTag("creator/publisher/contributor/point of contact/")
             when (localName) {
                 "Organization" -> organization {
-                    nextTag()
-                    while (localName != "Organization") {
-                        when (localName) {
-                            "name" -> names(elementText)
-                            "phone" -> phones(elementText)
-                            "email" -> emails(elementText)
-                        }
-                        nextTag()
-                    }
+                    parseProducer("Organization")
                 }
                 "Person" -> person {
-                    nextTag()
+                    nextTag("person name/phone/email")
                     while (localName != "Person") {
                         when (localName) {
                             "name" -> names(elementText)
@@ -138,35 +136,39 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
                             "phone" -> phones(elementText)
                             "email" -> emails(elementText)
                         }
-                        nextTag()
+                        nextTag("person name/phone/email")
                     }
                 }
                 "Service" -> service {
-                    nextTag()
-                    while (localName != "Service") {
-                        when (localName) {
-                            "name" -> names(elementText)
-                            "phone" -> phones(elementText)
-                            "email" -> emails(elementText)
-                        }
-                        nextTag()
-                    }
+                    parseProducer("Service")
                 }
             }
         }
     }
 
+    private fun <T : ProducerBuilder<T>> ProducerBuilder<T>.parseProducer(type: String) {
+        nextTag("$type name/phone/email")
+        while (localName != type) {
+            when (localName) {
+                "name" -> names(elementText)
+                "phone" -> phones(elementText)
+                "email" -> emails(elementText)
+            }
+            nextTag("$type name/phone/email")
+        }
+    }
+
     private fun parseFormat() {
-        nextTag() // Media
-        nextTag() // mimeType
+        nextTag("Media")
+        nextTag("mimeType")
         val mimeType = elementText
         var extent = Extent()
         var medium = ""
-        if (XMLStreamConstants.END_ELEMENT != nextTag()) {
+        if (XMLStreamConstants.END_ELEMENT != nextTag("extent?")) {
             if (localName == "extent") {
                 extent = Extent(getDdmsAttribute("qualifier"), getDdmsAttribute("value"))
-                nextTag() // end extent
-                if (XMLStreamConstants.END_ELEMENT != nextTag()) {
+                nextTag("end of extent")
+                if (XMLStreamConstants.END_ELEMENT != nextTag("medium?")) {
                     medium = elementText
                 }
             } else {
@@ -179,8 +181,8 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
 
     private fun parseSubjectCoverage() {
         ddms20Builder.subjectCoverage {
-            nextTag() // Subject
-            nextTag()
+            nextTag("Subject")
+            nextTag("category/keyword")
             while (localName != "Subject") {
                 if (eventType == XMLStreamConstants.START_ELEMENT) {
                     when (localName) {
@@ -192,7 +194,7 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
                             keywords(getDdmsAttribute("value"))
                     }
                 }
-                nextTag()
+                nextTag("category/keyword")
             }
         }
     }
@@ -201,130 +203,166 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
         var name = ""
         val start: String
         val end: String
-        nextTag() //TimePeriod
-        nextTag()
+        nextTag("TimePeriod")
+        nextTag("name?")
         if (localName == "name") {
             name = elementText
-            nextTag()
+            nextTag("start")
             start = elementText
-            nextTag()
+            nextTag("end")
             end = elementText
         } else { // Start
             start = elementText
-            nextTag()
+            nextTag("end")
             end = elementText
         }
-        ddms20Builder.temporalCoverage(name, start, end)
+        val startDate = try {
+            DdmsDate(start)
+        } catch (e: IllegalArgumentException) {
+            throw IllegalStateException("ddms:temporalCoverage contains invalid start date: $start")
+        }
+        val endDate = try {
+            DdmsDate(end)
+        } catch (e: IllegalArgumentException) {
+            throw IllegalStateException("ddms:temporalCoverage contains invalid end date: $start")
+        }
+        ddms20Builder.temporalCoverage(name, startDate, endDate)
     }
 
     private fun parseGeospatialCoverage() {
         ddms20Builder.geospatialCoverage {
-            nextTag()// GeospatialExtent
-            nextTag()
+            nextTag("GeospatialExtent")
+            nextTag("geographicIdentifier/boundingBox/boundingGeometry/postalAddress/verticalExtent")
             while (localName != "GeospatialExtent") {
                 if (eventType != XMLStreamConstants.END_ELEMENT) {
                     when (localName) {
-                        "geographicIdentifier" -> geographicIdentifier {
-                            nextTag()
-                            while (localName != "geographicIdentifier") {
-                                if (eventType != XMLStreamConstants.END_ELEMENT) {
-                                    when (localName) {
-                                        "name" -> names(elementText)
-                                        "region" -> regions(elementText)
-                                        "countryCode" -> countryCode(getDdmsAttribute("qualifier"),
-                                                getDdmsAttribute("value"))
-                                        "facilityIdentifier" -> facilityIdentifier(getDdmsAttribute("beNumber"),
-                                                getDdmsAttribute("osuffix"))
-                                    }
-                                }
-                                nextTag()
-                            }
-                        }
-                        "boundingBox" -> {
-                            nextTag() // WestBL
-                            val west = elementText.toDouble()
-                            nextTag() // EastBL
-                            val east = elementText.toDouble()
-                            nextTag() // SouthBL
-                            val south = elementText.toDouble()
-                            nextTag() // NorthBL
-                            val north = elementText.toDouble()
-                            boundingBox(west, east, north, south)
-                        }
-                        "boundingGeometry" -> boundingGeometry {
-                            nextTag()
-                            while (localName != "boundingGeometry") {
-                                if (eventType != XMLStreamConstants.END_ELEMENT) {
-                                    when (localName) {
-                                        "Polygon" -> polygon {
-                                            srsAttributes(getSrsAttributes())
-                                            id(getAttributeValue("http://www.opengis.net/gml", "id"))
-                                            nextTag() // exterior
-                                            nextTag() // LinearRing
-                                            exterior {
-                                                nextTag()
-                                                while (localName != "LinearRing") {
-                                                    if (eventType != XMLStreamConstants.END_ELEMENT) {
-                                                        position {
-                                                            srsAttributes(getSrsAttributes())
-                                                            points(elementText
-                                                                    .split(" ")
-                                                                    .map { it.toDouble() }
-                                                                    .toList())
-                                                        }
-                                                    }
-                                                    nextTag()
-                                                }
-                                            }
-                                        }
-                                        "Point" -> point {
-                                            srsAttributes(getSrsAttributes())
-                                            id(getAttributeValue("http://www.opengis.net/gml", "id"))
-                                            nextTag() // pos
-                                            position {
-                                                srsAttributes(getSrsAttributes())
-                                                points(elementText
-                                                        .split(" ")
-                                                        .map { it.toDouble() }
-                                                        .toList())
-                                            }
-                                        }
-                                    }
-                                }
-                                nextTag()
-                            }
-                        }
-                        "postalAddress" -> postalAddress {
-                            nextTag()
-                            while (localName != "postalAddress") {
-                                if (eventType != XMLStreamConstants.END_ELEMENT) {
-                                    when (localName) {
-                                        "street" -> streets(elementText)
-                                        "city" -> city(elementText)
-                                        "state" -> state(elementText)
-                                        "province" -> province(elementText)
-                                        "postalCode" -> postalCode(elementText)
-                                        "countryCode" -> countryCode(getDdmsAttribute("qualifier"),
-                                                getDdmsAttribute("value"))
-                                    }
-                                }
-                                nextTag()
-                            }
-                        }
-                        "verticalExtent" -> verticalExtent {
-                            unit(UnitOfMeasure.valueOf(getDdmsAttribute(("unitOfMeasure"))))
-                            datum(Datum.valueOf(getDdmsAttribute("datum")))
+                        "geographicIdentifier" -> parseGeographicIdentifier()
+                        "boundingBox" -> parseBoundingBox()
+                        "boundingGeometry" -> parseBoundingGeometry()
+                        "postalAddress" -> parsePostalAddress()
+                        "verticalExtent" -> parseVerticalExtent()
+                    }
+                }
+                nextTag("geographicIdentifier/boundingBox/boundingGeometry/postalAddress/verticalExtent")
+            }
+        }
+    }
 
-                            nextTag()// MinVerticalExtent
-                            minimum(getVerticalDistance())
+    private fun GeospatialCoverageBuilder.parseGeographicIdentifier() {
+        geographicIdentifier {
+            nextTag("name/region/country code/facility identifier")
+            while (localName != "geographicIdentifier") {
+                if (eventType != XMLStreamConstants.END_ELEMENT) {
+                    when (localName) {
+                        "name" -> names(elementText)
+                        "region" -> regions(elementText)
+                        "countryCode" -> countryCode(getDdmsAttribute("qualifier"),
+                                getDdmsAttribute("value"))
+                        "facilityIdentifier" -> facilityIdentifier(getDdmsAttribute("beNumber"),
+                                getDdmsAttribute("osuffix"))
+                    }
+                }
+                nextTag("name/region/country code/facility identifier")
+            }
+        }
+    }
 
-                            nextTag()// MaxVerticalExtent
-                            maximum(getVerticalDistance())
+    private fun GeospatialCoverageBuilder.parseBoundingBox() {
+        nextTag("WestBL")
+        val west = elementText.toDouble()
+        nextTag("EastBL")
+        val east = elementText.toDouble()
+        nextTag("SouthBL")
+        val south = elementText.toDouble()
+        nextTag("NorthBL")
+        val north = elementText.toDouble()
+        boundingBox(west, east, north, south)
+    }
+
+    private fun GeospatialCoverageBuilder.parseBoundingGeometry() {
+        boundingGeometry {
+            nextTag("Polygon/Point")
+            while (localName != "boundingGeometry") {
+                if (eventType != XMLStreamConstants.END_ELEMENT) {
+                    when (localName) {
+                        "Polygon" -> parsePolygon()
+                        "Point" -> parsePoint()
+                    }
+                }
+                nextTag("Polygon/Point")
+            }
+        }
+    }
+
+    private fun BoundingGeometryBuilder.parsePolygon() {
+        polygon {
+            srsAttributes(getSrsAttributes())
+            id(getAttributeValue("http://www.opengis.net/gml", "id"))
+            nextTag("exterior")
+            nextTag("LinearRing")
+            exterior {
+                nextTag()
+                while (localName != "LinearRing") {
+                    if (eventType != XMLStreamConstants.END_ELEMENT) {
+                        position {
+                            srsAttributes(getSrsAttributes())
+                            points(elementText
+                                    .split(" ")
+                                    .map { it.toDouble() }
+                                    .toList())
                         }
+                    }
+                    nextTag()
+                }
+            }
+        }
+    }
+
+    private fun BoundingGeometryBuilder.parsePoint() {
+        point {
+            srsAttributes(getSrsAttributes())
+            id(getAttributeValue("http://www.opengis.net/gml", "id"))
+            nextTag("pos")
+            position {
+                srsAttributes(getSrsAttributes())
+                points(elementText
+                        .split(" ")
+                        .map { it.toDouble() }
+                        .toList())
+            }
+        }
+    }
+
+    private fun GeospatialCoverageBuilder.parsePostalAddress() {
+        postalAddress {
+            nextTag()
+            while (localName != "postalAddress") {
+                if (eventType != XMLStreamConstants.END_ELEMENT) {
+                    when (localName) {
+                        "street" -> streets(elementText)
+                        "city" -> city(elementText)
+                        "state" -> state(elementText)
+                        "province" -> province(elementText)
+                        "postalCode" -> postalCode(elementText)
+                        "countryCode" -> countryCode(getDdmsAttribute("qualifier"),
+                                getDdmsAttribute("value"))
                     }
                 }
                 nextTag()
             }
+        }
+    }
+
+    private fun GeospatialCoverageBuilder.parseVerticalExtent() {
+        verticalExtent {
+            unit(UnitOfMeasure.valueOf(getDdmsAttribute(("unitOfMeasure"))))
+            datum(Datum.valueOf(getDdmsAttribute("datum")))
+
+            nextTag("MinVerticalExtent")
+            minimum(getVerticalDistance())
+
+            nextTag("MaxVerticalExtent")
+            maximum(getVerticalDistance())
         }
     }
 
@@ -373,7 +411,7 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
 
     private fun getSrsAttributes(): SrsAttributes {
         val dim = getAttributeValue(null, "srsDimension")
-        return srsAttributes {
+        return SrsAttributesBuilder.srsAttributes {
             srsName(getAttributeValue(null, "srsName"))
             srsDimension(if (dim.isNotEmpty()) dim.toInt() else 0)
             axisLabels(getAttributeValue(null, "axisLabels").split(" "))
@@ -403,18 +441,28 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
                     "derivativelyClassifiedBy" -> securityAttributeBuilder.derivativelyClassifiedBy(value)
                     "classificationReason" -> securityAttributeBuilder.classificationReason(value)
                     "derivedFrom" -> securityAttributeBuilder.derivedFrom(value)
-                    "declassDate" -> securityAttributeBuilder.declassDate(value)
+                    "declassDate" -> securityAttributeBuilder.declassDate(getDdmsDate(value,
+                            "ism:declassDate is an invalid date"))
                     "declassEvent" -> securityAttributeBuilder.declassEvent(value)
                     "declassException" -> securityAttributeBuilder.declassException(value.split(" "))
                     "typeOfExemptedSource" -> securityAttributeBuilder.typeOfExemptedSource(value.split(" "))
-                    "dateOfExemptedSource" -> securityAttributeBuilder.dateOfExemptedSource(value)
-                    "declassManualReview" -> securityAttributeBuilder.declassManualReview(value.toBoolean())
+                    "dateOfExemptedSource" -> securityAttributeBuilder.dateOfExemptedSource(getDdmsDate(value,
+                            "ism:dateOfExemptedSource is an invalid date"))
+                    "declassManualReview" -> securityAttributeBuilder.declassManualReview(value!!.toBoolean())
                     else -> logger.debug("Unhandled security attribute $localName")
                 }
             }
         }
 
         return securityAttributeBuilder.build()
+    }
+
+    private fun getDdmsDate(date: String, errorMsg: String): DdmsDate {
+        return try {
+            DdmsDate(date)
+        } catch (e: IllegalArgumentException) {
+            throw IllegalStateException(errorMsg)
+        }
     }
 
     private fun getDdmsAttribute(name: String): String {

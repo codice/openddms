@@ -28,6 +28,7 @@ data class Polygon(
     }
 
     override fun toString(): String {
-        return "<gml:Polygon gml:id=\"$id\" $srsAttributes xmlns:gml=\"http://www.opengis.net/gml\"><gml:exterior>$exterior</gml:exterior></gml:Polygon>"
+        return "<gml:Polygon gml:id=\"$id\" $srsAttributes xmlns:gml=\"http://www.opengis.net/gml\">" +
+                "<gml:exterior>$exterior</gml:exterior></gml:Polygon>"
     }
 }

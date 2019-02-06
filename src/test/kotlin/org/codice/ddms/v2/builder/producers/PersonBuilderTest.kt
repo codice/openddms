@@ -42,7 +42,7 @@ class PersonBuilderTest {
 
     @Test
     fun `building with lambda`() {
-        val result = person {
+        val result = PersonBuilder.person {
             names(person.names)
             surname(person.surname)
             userId(person.userId)

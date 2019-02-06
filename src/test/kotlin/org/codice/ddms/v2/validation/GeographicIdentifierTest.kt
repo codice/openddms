@@ -31,7 +31,7 @@ class GeographicIdentifierTest {
 
     @Test
     fun `a GeographicIdentifier with a CountryCode is valid`() {
-        GeographicIdentifier(emptyList(), emptyList(), listOf(CountryCode()), emptyList())
+        GeographicIdentifier(emptyList(), emptyList(), listOf(CountryCode("qualifier", "value")), emptyList())
     }
 
     @Test

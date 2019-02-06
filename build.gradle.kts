@@ -1,8 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.2.60"
-    id("com.diffplug.gradle.spotless") version "3.14.0"
+    kotlin("jvm") version "1.3.21"
+    id("com.diffplug.gradle.spotless") version "3.17.0"
+    id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12"
 }
 
 group = "org.codice.ddms"
@@ -13,11 +14,15 @@ repositories {
     jcenter()
 }
 
+dependencyLocking {
+    lockAllConfigurations()
+}
+
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(group = "org.slf4j", name = "slf4j-api", version = "1.7.25")
     testImplementation(kotlin("test-junit"))
-    testImplementation(group = "org.mockito", name = "mockito-core", version = "2.11.0")
+    testImplementation(group = "org.mockito", name = "mockito-core", version = "2.24.0")
 }
 
 tasks.withType<KotlinCompile> {
@@ -27,15 +32,16 @@ tasks.withType<KotlinCompile> {
 }
 
 spotless {
+    val licenseFile = "codice.license.kt"
     java {
-        licenseHeaderFile(rootProject.file("codice.license.kt"))
+        licenseHeaderFile(licenseFile)
         trimTrailingWhitespace()
         endWithNewline()
         googleJavaFormat()
     }
 
     kotlin {
-        licenseHeaderFile(rootProject.file("codice.license.kt"))
+        licenseHeaderFile(licenseFile)
         trimTrailingWhitespace()
         endWithNewline()
         ktlint()
@@ -46,4 +52,10 @@ spotless {
         endWithNewline()
         ktlint()
     }
+}
+
+detekt {
+    input = files("src/main/kotlin")
+    config = files("detekt.yml")
+    filters = ".*/resources/.*,.*/build/.*"
 }

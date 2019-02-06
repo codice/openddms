@@ -51,7 +51,7 @@ class LinearRingBuilderTest {
 
     @Test
     fun `building with lambda`() {
-        val result = linearRing {
+        val result = LinearRingBuilder.linearRing {
             positions.map {
                 position {
                     points(it.points)

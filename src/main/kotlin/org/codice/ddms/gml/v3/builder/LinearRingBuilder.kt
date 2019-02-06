@@ -17,10 +17,12 @@ import org.codice.ddms.Builder
 import org.codice.ddms.gml.v3.LinearRing
 import org.codice.ddms.gml.v3.Position
 
-fun linearRing(init: LinearRingBuilder.() -> Unit) =
-        LinearRingBuilder().apply(init).build()
-
 class LinearRingBuilder : Builder<LinearRing> {
+    companion object {
+        fun linearRing(init: LinearRingBuilder.() -> Unit) =
+                LinearRingBuilder().apply(init).build()
+    }
+
     private val positions: ArrayList<Position> = arrayListOf()
 
     fun positions(vararg pos: Position): LinearRingBuilder {

@@ -14,9 +14,9 @@
 package org.codice.ddms.v2.reader
 
 import org.codice.ddms.DdmsResource
-import org.codice.ddms.v2.builder.contact
-import org.codice.ddms.v2.builder.securityAttributes
-import org.codice.ddms.v2.builder.subjectCoverage
+import org.codice.ddms.v2.builder.resource.ContactBuilder.Companion.contact
+import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder.Companion.securityAttributes
+import org.codice.ddms.v2.builder.summary.SubjectCoverageBuilder.Companion.subjectCoverage
 import org.codice.ddms.v2.format.Extent
 import org.codice.ddms.v2.format.Format
 import org.codice.ddms.v2.resource.Identifier
@@ -90,13 +90,13 @@ class SampleDdms20ReaderTest {
 
     @Test
     fun `has dates`() {
-        assertThat(ddms20.dates?.created,
+        assertThat(ddms20.dates?.created.toString(),
                 equalTo("2016-08-01T09:30:06.613-04:00"))
-        assertThat(ddms20.dates?.infoCutOff,
+        assertThat(ddms20.dates?.infoCutOff.toString(),
                 equalTo("2018-02-07T12:27:30Z"))
-        assertThat(ddms20.dates?.posted,
+        assertThat(ddms20.dates?.posted.toString(),
                 equalTo("2018-02-07T12:27:30Z"))
-        assertThat(ddms20.dates?.validTil,
+        assertThat(ddms20.dates?.validTil.toString(),
                 equalTo("2017-08-01T09:30:06.613-04:00"))
     }
 
@@ -198,9 +198,9 @@ class SampleDdms20ReaderTest {
         assertThat(ddms20.temporalCoverages.size, equalTo(1))
         assertThat(ddms20.temporalCoverages.first().name,
                 equalTo("sensorDescriptionValidTime"))
-        assertThat(ddms20.temporalCoverages.first().start,
+        assertThat(ddms20.temporalCoverages.first().start.toString(),
                 equalTo("2016-08-01T09:30:06.613-04:00"))
-        assertThat(ddms20.temporalCoverages.first().end,
+        assertThat(ddms20.temporalCoverages.first().end.toString(),
                 equalTo("2017-08-01T09:30:06.613-04:00"))
     }
 

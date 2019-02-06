@@ -29,6 +29,11 @@ class TitleTest {
         Title(SecurityAttributes(classification = Classification.U), "Title")
     }
 
+    @Test(expected = IllegalArgumentException::class)
+    fun `a Title with a blank value is invalid`() {
+        Title(SecurityAttributes(classification = Classification.U, ownerProducer = listOf("USA")), "")
+    }
+
     @Test
     fun `a Title with a classification and ownerProducer is valid`() {
         Title(SecurityAttributes(classification = Classification.U, ownerProducer = listOf("USA")), "Title")

@@ -16,10 +16,12 @@ package org.codice.ddms.gml.v3.builder
 import org.codice.ddms.Builder
 import org.codice.ddms.gml.v3.SrsAttributes
 
-fun srsAttributes(init: SrsAttributesBuilder.() -> Unit) =
-        SrsAttributesBuilder().apply(init).build()
-
 class SrsAttributesBuilder : Builder<SrsAttributes> {
+    companion object {
+        fun srsAttributes(init: SrsAttributesBuilder.() -> Unit) =
+                SrsAttributesBuilder().apply(init).build()
+    }
+
     private var srsName: String = ""
     private var srsDimension: Int = 0
     private val axisLabels: ArrayList<String> = arrayListOf()

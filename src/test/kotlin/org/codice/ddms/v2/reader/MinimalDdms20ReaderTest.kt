@@ -14,9 +14,9 @@
 package org.codice.ddms.v2.reader
 
 import org.codice.ddms.DdmsResource
-import org.codice.ddms.v2.builder.contact
-import org.codice.ddms.v2.builder.securityAttributes
-import org.codice.ddms.v2.builder.subjectCoverage
+import org.codice.ddms.v2.builder.resource.ContactBuilder.Companion.contact
+import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder.Companion.securityAttributes
+import org.codice.ddms.v2.builder.summary.SubjectCoverageBuilder.Companion.subjectCoverage
 import org.codice.ddms.v2.resource.Identifier
 import org.codice.ddms.v2.resource.Title
 import org.codice.ddms.v2.security.Security

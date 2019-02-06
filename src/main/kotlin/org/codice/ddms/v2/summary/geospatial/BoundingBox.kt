@@ -14,8 +14,8 @@
 package org.codice.ddms.v2.summary.geospatial
 
 data class BoundingBox(
-    val west: Double,
-    val east: Double,
     val north: Double,
-    val south: Double
+    val south: Double,
+    val east: Double,
+    val west: Double
 )

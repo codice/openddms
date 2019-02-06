@@ -46,7 +46,7 @@ class PositionBuilderTest {
 
     @Test
     fun `building with lambda`() {
-        val result = position {
+        val result = PositionBuilder.position {
             points(position.points)
             srsAttributes(position.srsAttributes)
         }

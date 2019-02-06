@@ -14,30 +14,32 @@
 package org.codice.ddms.v2.writer
 
 import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter
+import org.codice.ddms.DdmsDate
 import org.codice.ddms.gml.v3.SrsAttributes
 import org.codice.ddms.gml.v3.builder.LinearRingBuilder
 import org.codice.ddms.gml.v3.builder.PointBuilder
 import org.codice.ddms.gml.v3.builder.PolygonBuilder
 import org.codice.ddms.gml.v3.builder.PositionBuilder
-import org.codice.ddms.gml.v3.builder.srsAttributes
+import org.codice.ddms.gml.v3.builder.SrsAttributesBuilder.Companion.srsAttributes
 import org.codice.ddms.v2.Ddms20Resource
-import org.codice.ddms.v2.builder.ContactBuilder
+import org.codice.ddms.v2.builder.resource.ContactBuilder
 import org.codice.ddms.v2.builder.Ddms20ResourceBuilder
-import org.codice.ddms.v2.builder.GeospatialCoverageBuilder
-import org.codice.ddms.v2.builder.RelatedResourceBuilder
-import org.codice.ddms.v2.builder.RelatedResourcesBuilder
-import org.codice.ddms.v2.builder.SecurityAttributeBuilder
-import org.codice.ddms.v2.builder.SubjectCoverageBuilder
-import org.codice.ddms.v2.builder.ddms20
-import org.codice.ddms.v2.builder.geospatial.BoundingGeometryBuilder
-import org.codice.ddms.v2.builder.geospatial.GeographicIdentifierBuilder
-import org.codice.ddms.v2.builder.geospatial.PostalAddressBuilder
-import org.codice.ddms.v2.builder.geospatial.VerticalExtentBuilder
+import org.codice.ddms.v2.builder.summary.GeospatialCoverageBuilder
+import org.codice.ddms.v2.builder.summary.RelatedResourceBuilder
+import org.codice.ddms.v2.builder.summary.RelatedResourcesBuilder
+import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder
+import org.codice.ddms.v2.builder.summary.SubjectCoverageBuilder
+import org.codice.ddms.v2.builder.Ddms20ResourceBuilder.Companion.ddms20
+import org.codice.ddms.v2.builder.summary.geospatial.BoundingGeometryBuilder
+import org.codice.ddms.v2.builder.summary.geospatial.GeographicIdentifierBuilder
+import org.codice.ddms.v2.builder.summary.geospatial.PostalAddressBuilder
+import org.codice.ddms.v2.builder.summary.geospatial.VerticalExtentBuilder
 import org.codice.ddms.v2.builder.producers.OrganizationBuilder
 import org.codice.ddms.v2.builder.producers.PersonBuilder
 import org.codice.ddms.v2.builder.producers.ServiceBuilder
-import org.codice.ddms.v2.builder.securityAttributes
+import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder.Companion.securityAttributes
 import org.codice.ddms.v2.format.Extent
+import org.codice.ddms.v2.resource.Dates
 import org.codice.ddms.v2.resource.Title
 import org.codice.ddms.v2.security.Security
 import org.codice.ddms.v2.security.ism.Classification
@@ -76,15 +78,15 @@ class Ddms20XmlWriterTest {
                 .derivativelyClassifiedBy("derivativelyClassifiedBy")
                 .classificationReason("classificationReason")
                 .derivedFrom("derivedFrom")
-                .declassDate("2017-11-02")
+                .declassDate(DdmsDate("2017-11-02"))
                 .declassEvent("declassEvent")
                 .declassException("declassException")
                 .typeOfExemptedSource("typeOfExemptedSource")
-                .dateOfExemptedSource("2017-11-02")
+                .dateOfExemptedSource(DdmsDate("2017-11-02"))
                 .declassManualReview(true)
                 .build()
 
-        val date = "2017-11-02T10:55:24.225-07:00"
+        val date = DdmsDate("2017-11-02T10:55:24.225-07:00")
         val srsAttributes = SrsAttributes("srsName", 2, listOf("axisLabels"), listOf("uomLabels"))
 
         val ddms20 = Ddms20ResourceBuilder()
@@ -93,8 +95,8 @@ class Ddms20XmlWriterTest {
                 .subtitles(Title(securityMarkings, "A Testing Document"))
                 .description(Description(securityMarkings, "Testing every element/attribute"))
                 .language("ISO 639-1", "EN")
-                .dates(date, date, date, date)
-                .rights(true, true, true)
+                .dates(Dates(date, date, date, date))
+                .rights(privacyAct = true, intellectualProperty = true, copyright = true)
                 .source("qualifier", "value", "schema", "href")
                 .type("qualifier", "value")
                 .creators(ContactBuilder()
@@ -147,7 +149,7 @@ class Ddms20XmlWriterTest {
                                 .countryCode("qualifier", "value")
                                 .facilityIdentifier("beNumber", "osuffix")
                                 .build())
-                        .boundingBox(1.0, 2.0, 4.0, 3.0)
+                        .boundingBox(4.0, 3.0, 2.0, 1.0)
                         .boundingGeometries(BoundingGeometryBuilder()
                                 .polygons(PolygonBuilder()
                                         .srsAttributes(srsAttributes)
@@ -224,11 +226,11 @@ class Ddms20XmlWriterTest {
             derivativelyClassifiedBy("derivativelyClassifiedBy")
             classificationReason("classificationReason")
             derivedFrom("derivedFrom")
-            declassDate("2017-11-02")
+            declassDate(DdmsDate("2017-11-02"))
             declassEvent("declassEvent")
             declassException("declassException")
             typeOfExemptedSource("typeOfExemptedSource")
-            dateOfExemptedSource("2017-11-02")
+            dateOfExemptedSource(DdmsDate("2017-11-02"))
             declassManualReview(true)
         }
 
@@ -239,7 +241,7 @@ class Ddms20XmlWriterTest {
             uomLabels("uomLabels")
         }
 
-        val date = "2017-11-02T10:55:24.225-07:00"
+        val date = DdmsDate("2017-11-02T10:55:24.225-07:00")
 
         val ddms20 = ddms20 {
             identifier("org:codice:ddms", "test")
@@ -247,8 +249,8 @@ class Ddms20XmlWriterTest {
             subtitle("A Testing Document", securityMarkings)
             description("Testing every element/attribute", securityMarkings)
             language("ISO 639-1", "EN")
-            dates(date, date, date, date)
-            rights(true, true, true)
+            dates(Dates(date, date, date, date))
+            rights(privacyAct = true, intellectualProperty = true, copyright = true)
             source("qualifier", "value", "schema", "href")
             type("qualifier", "value")
             creator {
@@ -303,7 +305,7 @@ class Ddms20XmlWriterTest {
                     countryCode("qualifier", "value")
                     facilityIdentifier("beNumber", "osuffix")
                 }
-                boundingBox(1.0, 2.0, 4.0, 3.0)
+                boundingBox(4.0, 3.0, 2.0, 1.0)
                 boundingGeometry {
                     polygon {
                         srsAttributes(srsAttributes)

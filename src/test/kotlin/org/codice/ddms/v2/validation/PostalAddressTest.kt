@@ -52,7 +52,7 @@ class PostalAddressTest {
 
     @Test
     fun `a PostalAddress with a countryCode is valid`() {
-        PostalAddress(countryCode = CountryCode())
+        PostalAddress(countryCode = CountryCode("qualifier", "value"))
     }
 
     @Test(expected = IllegalArgumentException::class)

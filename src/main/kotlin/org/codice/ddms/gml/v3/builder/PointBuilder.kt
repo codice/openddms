@@ -18,9 +18,11 @@ import org.codice.ddms.gml.v3.Point
 import org.codice.ddms.gml.v3.Position
 import org.codice.ddms.gml.v3.SrsAttributes
 
-fun point(init: PointBuilder.() -> Unit) = PointBuilder().apply(init).build()
-
 class PointBuilder : Builder<Point> {
+    companion object {
+        fun point(init: PointBuilder.() -> Unit) = PointBuilder().apply(init).build()
+    }
+
     private var id: String = ""
     private lateinit var position: Position
     private var srsAttributes: SrsAttributes = SrsAttributes()

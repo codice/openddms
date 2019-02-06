@@ -13,19 +13,10 @@
  */
 package org.codice.ddms.v2.summary
 
-import org.codice.ddms.DateFormat
+import org.codice.ddms.DdmsDate
 
 data class TemporalCoverage(
-    val name: String = DateFormat.UNKNOWN,
-    val start: String = DateFormat.UNKNOWN,
-    val end: String = DateFormat.UNKNOWN
-) {
-    init {
-        require(DateFormat.isValid(start, true)) {
-            "ddms:temporalCoverage start is an invalid date"
-        }
-        require(DateFormat.isValid(end, true)) {
-            "ddms:temporalCoverage end is an invalid date"
-        }
-    }
-}
+    val name: String = "Unknown",
+    val start: DdmsDate = DdmsDate.unknown,
+    val end: DdmsDate = DdmsDate.unknown
+)

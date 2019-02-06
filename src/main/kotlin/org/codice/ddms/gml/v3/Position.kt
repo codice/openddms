@@ -18,13 +18,12 @@ data class Position(
     val srsAttributes: SrsAttributes = SrsAttributes()
 ) {
     override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append("<gml:pos")
-        if (srsAttributes.toString().isNotBlank())
-            sb.append(" $srsAttributes")
-        sb.append(" xmlns:gml=\"http://www.opengis.net/gml\">")
-                .append(points.joinToString(" "))
-                .append("</gml:pos>")
-        return sb.toString()
+        val srs = if (srsAttributes.toString().isNotBlank()) {
+            " $srsAttributes"
+        } else ""
+        return """<gml:pos$srs xmlns:gml="http://www.opengis.net/gml">
+            |${points.joinToString(" ")}
+            |</gml:pos>
+        """.trimMargin().replace("\n", "")
     }
 }

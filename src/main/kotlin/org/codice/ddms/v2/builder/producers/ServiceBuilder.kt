@@ -15,42 +15,10 @@ package org.codice.ddms.v2.builder.producers
 
 import org.codice.ddms.v2.resource.producers.Service
 
-fun service(init: ServiceBuilder.() -> Unit) = ServiceBuilder().apply(init).build()
-
-class ServiceBuilder : ProducerBuilder {
-    private val names: ArrayList<String> = arrayListOf()
-    private val phones: ArrayList<String> = arrayListOf()
-    private val emails: ArrayList<String> = arrayListOf()
-
-    override fun names(vararg name: String): ServiceBuilder {
-        names.addAll(name)
-        return this
+class ServiceBuilder : ProducerBuilder<ServiceBuilder>() {
+    companion object {
+        fun service(init: ServiceBuilder.() -> Unit) = ServiceBuilder().apply(init).build()
     }
 
-    override fun names(name: List<String>): ServiceBuilder {
-        names.addAll(name)
-        return this
-    }
-
-    override fun phones(vararg phone: String): ServiceBuilder {
-        phones.addAll(phone)
-        return this
-    }
-
-    override fun phones(phone: List<String>): ServiceBuilder {
-        phones.addAll(phone)
-        return this
-    }
-
-    override fun emails(vararg email: String): ServiceBuilder {
-        emails.addAll(email)
-        return this
-    }
-
-    override fun emails(email: List<String>): ServiceBuilder {
-        emails.addAll(email)
-        return this
-    }
-
-    override fun build() = Service(names, phones, emails)
+    override fun build() = Service(nameList, phonesList, emailsList)
 }

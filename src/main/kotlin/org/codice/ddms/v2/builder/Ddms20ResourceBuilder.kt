@@ -14,7 +14,13 @@
 package org.codice.ddms.v2.builder
 
 import org.codice.ddms.Builder
+import org.codice.ddms.DdmsDate
 import org.codice.ddms.v2.Ddms20Resource
+import org.codice.ddms.v2.builder.resource.ContactBuilder
+import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder
+import org.codice.ddms.v2.builder.summary.GeospatialCoverageBuilder
+import org.codice.ddms.v2.builder.summary.RelatedResourcesBuilder
+import org.codice.ddms.v2.builder.summary.SubjectCoverageBuilder
 import org.codice.ddms.v2.format.Extent
 import org.codice.ddms.v2.format.Format
 import org.codice.ddms.v2.resource.Contact
@@ -33,30 +39,36 @@ import org.codice.ddms.v2.summary.RelatedResources
 import org.codice.ddms.v2.summary.SubjectCoverage
 import org.codice.ddms.v2.summary.TemporalCoverage
 import org.codice.ddms.v2.summary.VirtualCoverage
+import java.time.temporal.TemporalAccessor
 
-fun ddms20(init: Ddms20ResourceBuilder.() -> Unit): Ddms20Resource =
-        Ddms20ResourceBuilder().apply(init).build()
-
+@Suppress("LargeClass", "TooManyFunctions") // TODO: Not sure how we can make this 'smaller'
 class Ddms20ResourceBuilder : Builder<Ddms20Resource> {
+    companion object {
+        fun ddms20(init: Ddms20ResourceBuilder.() -> Unit): Ddms20Resource =
+                Ddms20ResourceBuilder().apply(init).build()
+    }
+
     private val identifiers: ArrayList<Identifier> = arrayListOf()
     private val titles: ArrayList<Title> = arrayListOf()
     private val subtitles: ArrayList<Title> = arrayListOf()
-    private var description: Description? = null
     private val languages: ArrayList<Language> = arrayListOf()
-    private var dates: Dates? = null
-    private var rights: Rights? = null
     private val sources: ArrayList<Source> = arrayListOf()
     private val types: ArrayList<Type> = arrayListOf()
     private val creators: ArrayList<Contact> = arrayListOf()
     private val publishers: ArrayList<Contact> = arrayListOf()
     private val contributors: ArrayList<Contact> = arrayListOf()
     private val pointOfContacts: ArrayList<Contact> = arrayListOf()
-    private var format: Format? = null
-    private lateinit var subjectCoverage: SubjectCoverage
     private val virtualCoverages: ArrayList<VirtualCoverage> = arrayListOf()
     private val temporalCoverages: ArrayList<TemporalCoverage> = arrayListOf()
     private val geospatialCoverages: ArrayList<GeospatialCoverage> = arrayListOf()
     private val relatedResources: ArrayList<RelatedResources> = arrayListOf()
+
+    private var description: Description? = null
+    private var dates: Dates? = null
+    private var rights: Rights? = null
+    private var format: Format? = null
+
+    private lateinit var subjectCoverage: SubjectCoverage
     private lateinit var security: Security
 
     fun identifiers(vararg identifier: Identifier): Ddms20ResourceBuilder {
@@ -141,7 +153,18 @@ class Ddms20ResourceBuilder : Builder<Ddms20Resource> {
     }
 
     fun dates(created: String, posted: String, validTil: String, infoCutOff: String) =
-            dates(Dates(created, posted, validTil, infoCutOff))
+            dates(Dates(DdmsDate(created), DdmsDate(posted), DdmsDate(validTil), DdmsDate(infoCutOff)))
+
+    fun dates(
+        created: TemporalAccessor?,
+        posted: TemporalAccessor?,
+        validTil: TemporalAccessor?,
+        infoCutOff: TemporalAccessor?
+    ) =
+            dates(Dates(if (created != null) DdmsDate(created) else null,
+                    if (posted != null) DdmsDate(posted) else null,
+                    if (validTil != null) DdmsDate( validTil) else null,
+                    if (infoCutOff != null) DdmsDate(infoCutOff) else null))
 
     fun rights(rights: Rights): Ddms20ResourceBuilder {
         this.rights = rights
@@ -277,7 +300,7 @@ class Ddms20ResourceBuilder : Builder<Ddms20Resource> {
         return this
     }
 
-    fun temporalCoverage(name: String, start: String, end: String) =
+    fun temporalCoverage(name: String, start: DdmsDate, end: DdmsDate) =
             temporalCoverages(TemporalCoverage(name, start, end))
 
     fun geospatialCoverages(vararg geospatialCoverage: GeospatialCoverage): Ddms20ResourceBuilder {

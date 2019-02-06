@@ -16,16 +16,44 @@ package org.codice.ddms.v2.builder.producers
 import org.codice.ddms.Builder
 import org.codice.ddms.v2.resource.producers.Producer
 
-interface ProducerBuilder : Builder<Producer> {
-    fun names(vararg name: String): ProducerBuilder
+abstract class ProducerBuilder<out T : ProducerBuilder<T>> : Builder<Producer> {
+    protected val nameList: MutableList<String> = mutableListOf()
+    protected val phonesList: MutableList<String> = mutableListOf()
+    protected val emailsList: MutableList<String> = mutableListOf()
 
-    fun names(name: List<String>): ProducerBuilder
+    @Suppress("UNCHECKED_CAST")
+    fun names(vararg names: String): T {
+        nameList.addAll(names)
+        return this as T
+    }
 
-    fun phones(vararg phone: String): ProducerBuilder
+    @Suppress("UNCHECKED_CAST")
+    fun names(names: List<String>): T {
+        nameList.addAll(names)
+        return this as T
+    }
 
-    fun phones(phone: List<String>): ProducerBuilder
+    @Suppress("UNCHECKED_CAST")
+    fun phones(vararg phones: String): T {
+        phonesList.addAll(phones)
+        return this as T
+    }
 
-    fun emails(vararg email: String): ProducerBuilder
+    @Suppress("UNCHECKED_CAST")
+    fun phones(phones: List<String>): T {
+        phonesList.addAll(phones)
+        return this as T
+    }
 
-    fun emails(email: List<String>): ProducerBuilder
+    @Suppress("UNCHECKED_CAST")
+    fun emails(vararg emails: String): T {
+        emailsList.addAll(emails)
+        return this as T
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun emails(emails: List<String>): T {
+        emailsList.addAll(emails)
+        return this as T
+    }
 }

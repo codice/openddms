@@ -22,7 +22,8 @@ data class GeographicIdentifier(
     init {
         require(names.isNotEmpty() || regions.isNotEmpty() ||
                 countryCodes.isNotEmpty() || facilityIdentifiers.isNotEmpty()) {
-            "ddms:geographicIdentifier must contain at least one of the following: ddms:name, ddms:region, ddms:countryCode, ddms:facilityIdentifier"
+            "ddms:geographicIdentifier must contain at least one of the following: ddms:name, ddms:region, " +
+                    "ddms:countryCode, ddms:facilityIdentifier"
         }
     }
 }

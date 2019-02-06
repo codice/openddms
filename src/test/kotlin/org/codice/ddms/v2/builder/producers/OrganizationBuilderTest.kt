@@ -34,7 +34,7 @@ class OrganizationBuilderTest {
 
     @Test
     fun `building with lambda`() {
-        val result = organization {
+        val result = OrganizationBuilder.organization {
             names(organization.names)
             phones(organization.phones)
             emails(organization.emails)

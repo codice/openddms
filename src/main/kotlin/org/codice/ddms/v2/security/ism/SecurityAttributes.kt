@@ -13,7 +13,7 @@
  */
 package org.codice.ddms.v2.security.ism
 
-import org.codice.ddms.DateFormat
+import org.codice.ddms.DdmsDate
 
 data class SecurityAttributes(
     val classification: Classification = Classification.NO_CLASSIFICATION,
@@ -29,23 +29,10 @@ data class SecurityAttributes(
     val derivativelyClassifiedBy: String = "",
     val classificationReason: String = "",
     val derivedFrom: String = "",
-    val declassDate: String = "",
+    val declassDate: DdmsDate? = null,
     val declassEvent: String = "",
     val declassException: List<String> = emptyList(),
     val typeOfExemptedSource: List<String> = emptyList(),
-    val dateOfExemptedSource: String = "",
+    val dateOfExemptedSource: DdmsDate? = null,
     val declassManualReview: Boolean? = null
-) {
-    init {
-        if (dateOfExemptedSource.isNotBlank()) {
-            require(DateFormat.isValid(dateOfExemptedSource, true)) {
-                "ism:dateOfExemptedSource is an invalid date"
-            }
-        }
-        if (declassDate.isNotBlank()) {
-            require(DateFormat.isValid(declassDate, true)) {
-                "ism:declassDate is an invalid date"
-            }
-        }
-    }
-}
+)

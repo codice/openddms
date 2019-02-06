@@ -19,23 +19,40 @@ data class SrsAttributes @JvmOverloads constructor(
     val axisLabels: List<String> = emptyList(),
     val uomLabels: List<String> = emptyList()
 ) {
-    override fun toString(): String {
-        val sb = StringBuilder()
-        if (srsName.isNotBlank())
-            sb.append("srsName=\"$srsName\"")
-        if (srsDimension > 0)
-            sb.append(" srsDimension=\"$srsDimension\"")
-        if (axisLabels.any(String::isNotBlank)) {
-            sb.append(" axisLabels=\"")
-                    .append(axisLabels.joinToString(" "))
-                    .append("\"")
+    init {
+        require(srsDimension >= 0) {
+            "srsDimension needs to be a positive integer"
         }
-        if (uomLabels.any(String::isNotBlank)) {
-            sb.append(" uomLabels=\"")
-                    .append(uomLabels.joinToString(" "))
-                    .append("\"")
-        }
+    }
 
-        return sb.toString()
+    private fun srsNameToString(): String {
+        return if (srsName.isNotBlank()) {
+            "srsName=\"$srsName\""
+        } else ""
+    }
+
+    private fun srsDimensionToString(): String {
+        return if (srsDimension > 0) {
+            " srsDimension=\"$srsDimension\""
+        } else ""
+    }
+
+    private fun axisLabelsToString(): String {
+        return if (axisLabels.any(String::isNotBlank)) {
+            " axisLabels=\"${axisLabels.joinToString(" ")}\""
+        } else ""
+    }
+
+    private fun uomLabelsToString(): String {
+        return if (uomLabels.any(String::isNotBlank)) {
+            " uomLabels=\"${uomLabels.joinToString(" ")}\""
+        } else ""
+    }
+
+    override fun toString(): String {
+        return srsNameToString() +
+                srsDimensionToString() +
+                axisLabelsToString() +
+                uomLabelsToString()
     }
 }

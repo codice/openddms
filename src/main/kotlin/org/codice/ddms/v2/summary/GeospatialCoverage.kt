@@ -32,7 +32,8 @@ data class GeospatialCoverage(
                 boundingGeometries.isNotEmpty() ||
                 postalAddresses.isNotEmpty() ||
                 verticalExtents.isNotEmpty()) {
-            "ddms:GeospatialCoverage must contain at least one of the following: ddms:geographicIdentifiers, ddms:boundBox, ddms:boundingGeometry, ddms:postalAddress, ddms:verticalExtent"
+            "ddms:GeospatialCoverage must contain at least one of the following: ddms:geographicIdentifiers, " +
+                    "ddms:boundBox, ddms:boundingGeometry, ddms:postalAddress, ddms:verticalExtent"
         }
     }
 }

@@ -13,15 +13,17 @@
  */
 package org.codice.ddms.v2.summary.geospatial
 
+private const val MAX_STREET_SIZE = 6
+
 data class PostalAddress(
     val street: List<String> = emptyList(),
     val city: String = "",
     val stateOrProvince: StateProvince? = null,
     val postalCode: String = "",
-    val countryCode: CountryCode = CountryCode()
+    val countryCode: CountryCode? = null
 ) {
     init {
-        require(street.size <= 6) {
+        require(street.size <= MAX_STREET_SIZE) {
             "ddms:postalAddress street must contain between zero and six elements"
         }
     }

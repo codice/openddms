@@ -20,9 +20,9 @@ data class Security(val securityAttributes: SecurityAttributes) {
     init {
         with(securityAttributes) {
             require(classification != Classification.NO_CLASSIFICATION) {
-                "ddms:security must contain a ism:classification"
+                "ddms:security must contain an ism:classification"
             }
-            require(ownerProducer.isNotEmpty() && ownerProducer.any { it.isNotBlank() }) {
+            require(ownerProducer.any { it.isNotBlank() }) {
                 "ddms:security must contain at least one ism:ownerProducer"
             }
         }

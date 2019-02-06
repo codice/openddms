@@ -62,7 +62,7 @@ class PointBuilderTest {
 
     @Test
     fun `building with lambda`() {
-        val result = point {
+        val result = PointBuilder.point {
             id(point.id)
             position(point.position)
             srsAttributes(point.srsAttributes)

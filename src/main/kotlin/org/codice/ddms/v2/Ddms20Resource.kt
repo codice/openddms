@@ -62,7 +62,8 @@ data class Ddms20Resource(
         }
         require(creators.isNotEmpty() || publishers.isNotEmpty() ||
                 contributors.isNotEmpty() || pointOfContacts.isNotEmpty()) {
-            "ddms:Resource must contain at least one of the following: ddms:creator, ddms:publisher, ddms:contributor, ddms:pointOfContact"
+            "ddms:Resource must contain at least one of the following: ddms:creator, ddms:publisher, " +
+                    "ddms:contributor, ddms:pointOfContact"
         }
     }
 }

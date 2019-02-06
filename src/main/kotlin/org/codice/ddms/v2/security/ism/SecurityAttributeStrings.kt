@@ -15,6 +15,14 @@ package org.codice.ddms.v2.security.ism
 
 class SecurityAttributeStrings(securityAttributes: SecurityAttributes) {
     val classification = securityAttributes.classification
+    val classifiedBy = securityAttributes.classifiedBy
+    val derivativelyClassifiedBy = securityAttributes.derivativelyClassifiedBy
+    val classificationReason = securityAttributes.classificationReason
+    val derivedFrom = securityAttributes.derivedFrom
+    val declassDate = securityAttributes.declassDate
+    val declassEvent = securityAttributes.declassEvent
+    val dateOfExemptedSource = securityAttributes.dateOfExemptedSource
+
     val ownerProducer = toString(securityAttributes.ownerProducer)
     val sciControls = toString(securityAttributes.sciControls)
     val sarIdentifier = toString(securityAttributes.sarIdentifier)
@@ -23,15 +31,8 @@ class SecurityAttributeStrings(securityAttributes: SecurityAttributes) {
     val fgiSourceProtected = toString(securityAttributes.fgiSourceProtected)
     val releasableTo = toString(securityAttributes.releasableTo)
     val nonIcMarkings = toString(securityAttributes.nonIcMarkings)
-    val classifiedBy = securityAttributes.classifiedBy
-    val derivativelyClassifiedBy = securityAttributes.derivativelyClassifiedBy
-    val classificationReason = securityAttributes.classificationReason
-    val derivedFrom = securityAttributes.derivedFrom
-    val declassDate = securityAttributes.declassDate
-    val declassEvent = securityAttributes.declassEvent
     val declassException = toString(securityAttributes.declassException)
     val typeOfExemptedSource = toString(securityAttributes.typeOfExemptedSource)
-    val dateOfExemptedSource = securityAttributes.dateOfExemptedSource
     val declassManualReview = securityAttributes.declassManualReview?.toString() ?: ""
 
     private fun toString(list: List<String>): String {

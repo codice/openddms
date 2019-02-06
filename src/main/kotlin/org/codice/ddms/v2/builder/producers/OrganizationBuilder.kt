@@ -15,42 +15,10 @@ package org.codice.ddms.v2.builder.producers
 
 import org.codice.ddms.v2.resource.producers.Organization
 
-fun organization(init: OrganizationBuilder.() -> Unit) = OrganizationBuilder().apply(init).build()
-
-class OrganizationBuilder : ProducerBuilder {
-    private val names: ArrayList<String> = arrayListOf()
-    private val phones: ArrayList<String> = arrayListOf()
-    private val emails: ArrayList<String> = arrayListOf()
-
-    override fun names(vararg name: String): OrganizationBuilder {
-        names.addAll(name)
-        return this
+class OrganizationBuilder : ProducerBuilder<OrganizationBuilder>() {
+    companion object {
+        fun organization(init: OrganizationBuilder.() -> Unit) = OrganizationBuilder().apply(init).build()
     }
 
-    override fun names(name: List<String>): OrganizationBuilder {
-        names.addAll(name)
-        return this
-    }
-
-    override fun phones(vararg phone: String): OrganizationBuilder {
-        phones.addAll(phone)
-        return this
-    }
-
-    override fun phones(phone: List<String>): OrganizationBuilder {
-        phones.addAll(phone)
-        return this
-    }
-
-    override fun emails(vararg email: String): OrganizationBuilder {
-        emails.addAll(email)
-        return this
-    }
-
-    override fun emails(email: List<String>): OrganizationBuilder {
-        emails.addAll(email)
-        return this
-    }
-
-    override fun build() = Organization(names, phones, emails)
+    override fun build() = Organization(nameList, phonesList, emailsList)
 }

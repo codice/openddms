@@ -68,7 +68,7 @@ class PolygonBuilderTest {
 
     @Test
     fun `building with lambda`() {
-        val result = polygon {
+        val result = PolygonBuilder.polygon {
             id(polygon.id)
             exterior(polygon.exterior)
             srsAttributes(polygon.srsAttributes)

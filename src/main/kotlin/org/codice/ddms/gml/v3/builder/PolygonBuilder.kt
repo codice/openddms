@@ -18,10 +18,12 @@ import org.codice.ddms.gml.v3.LinearRing
 import org.codice.ddms.gml.v3.Polygon
 import org.codice.ddms.gml.v3.SrsAttributes
 
-fun polygon(init: PolygonBuilder.() -> Unit) = PolygonBuilder().apply(init).build()
-
 class PolygonBuilder : Builder<Polygon> {
-    private lateinit var id: String
+    companion object {
+        fun polygon(init: PolygonBuilder.() -> Unit) = PolygonBuilder().apply(init).build()
+    }
+
+    private var id: String = ""
     private lateinit var exterior: LinearRing
     private var srsAttributes: SrsAttributes = SrsAttributes()
 
