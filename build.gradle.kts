@@ -1,13 +1,26 @@
+/**
+ * Copyright (c) Codice Foundation
+ *
+ * <p>This is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or any later version.
+ *
+ * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details. A copy of the GNU Lesser General Public
+ * License is distributed along with this program and can be found at
+ * <http://www.gnu.org/licenses/lgpl.html>.
+ */
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.21"
-    id("com.diffplug.gradle.spotless") version "3.17.0"
-    id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12"
+    kotlin("jvm") version Versions.kotlin
+    id("com.diffplug.gradle.spotless") version Versions.spotless
+    id("io.gitlab.arturbosch.detekt") version Versions.detekt
 }
 
 group = "org.codice.ddms"
-version = "1.0-SNAPSHOT"
+version = Versions.project
 description = "Library for parsing and creating DoD Discovery Metadata Specification (DDMS) documents."
 
 repositories {
@@ -20,14 +33,15 @@ dependencyLocking {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation(group = "org.slf4j", name = "slf4j-api", version = "1.7.25")
     testImplementation(kotlin("test-junit"))
-    testImplementation(group = "org.mockito", name = "mockito-core", version = "2.24.0")
+
+    implementation(Libs.slf4j)
+    testImplementation(Libs.mockito)
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Versions.javaTarget
     }
 }
 
@@ -41,13 +55,20 @@ spotless {
     }
 
     kotlin {
-        licenseHeaderFile(licenseFile)
+        target(fileTree(projectDir) {
+            include("**/src/**/*.kt")
+        })
+        licenseHeaderFile(licenseFile, "(package |@file|// Default package)")
         trimTrailingWhitespace()
         endWithNewline()
         ktlint()
     }
 
     kotlinGradle {
+        target(fileTree(projectDir) {
+            include("**/build.gradle.kts")
+        })
+        licenseHeaderFile(licenseFile, "(import |plugins )")
         trimTrailingWhitespace()
         endWithNewline()
         ktlint()
@@ -55,7 +76,7 @@ spotless {
 }
 
 detekt {
-    input = files("src/main/kotlin")
+    input = files("src/main/kotlin", "buildSrc/src/main/kotlin")
     config = files("detekt.yml")
     filters = ".*/resources/.*,.*/build/.*"
 }
