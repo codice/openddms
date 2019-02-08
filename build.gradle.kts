@@ -11,6 +11,7 @@
  * License is distributed along with this program and can be found at
  * <http://www.gnu.org/licenses/lgpl.html>.
  */
+import com.diffplug.gradle.spotless.FormatExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -46,21 +47,17 @@ tasks.withType<KotlinCompile> {
 }
 
 spotless {
-    val licenseFile = "codice.license.kt"
-    java {
-        licenseHeaderFile(licenseFile)
+    fun FormatExtension.commonFormat(delimiter: String) {
+        licenseHeaderFile("codice.license.kt", delimiter)
         trimTrailingWhitespace()
         endWithNewline()
-        googleJavaFormat()
     }
 
     kotlin {
         target(fileTree(projectDir) {
             include("**/src/**/*.kt")
         })
-        licenseHeaderFile(licenseFile, "(package |@file|// Default package)")
-        trimTrailingWhitespace()
-        endWithNewline()
+        commonFormat("(package |@file|// Default package)")
         ktlint()
     }
 
@@ -68,9 +65,7 @@ spotless {
         target(fileTree(projectDir) {
             include("**/build.gradle.kts")
         })
-        licenseHeaderFile(licenseFile, "(import |plugins )")
-        trimTrailingWhitespace()
-        endWithNewline()
+        commonFormat("(import |plugins )")
         ktlint()
     }
 }
