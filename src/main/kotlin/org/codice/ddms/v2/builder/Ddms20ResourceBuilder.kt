@@ -1,16 +1,8 @@
-/**
- * Copyright (c) Codice Foundation
- *
- * <p>This is free software: you can redistribute it and/or modify it under the terms of the GNU
- * Lesser General Public License as published by the Free Software Foundation, either version 3 of
- * the License, or any later version.
- *
- * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details. A copy of the GNU Lesser General Public
- * License is distributed along with this program and can be found at
- * <http://www.gnu.org/licenses/lgpl.html>.
- */
+/*
+Copyright (c) 2019 Codice Foundation
+Released under the GNU Lesser General Public License; see
+http://www.gnu.org/licenses/lgpl.html
+*/
 package org.codice.ddms.v2.builder
 
 import org.codice.ddms.Builder
@@ -41,7 +33,8 @@ import org.codice.ddms.v2.summary.TemporalCoverage
 import org.codice.ddms.v2.summary.VirtualCoverage
 import java.time.temporal.TemporalAccessor
 
-@Suppress("LargeClass", "TooManyFunctions") // TODO: Not sure how we can make this 'smaller'
+// Builders are pretty complex objects, any break up would be artificial and not useful
+@Suppress("LargeClass", "TooManyFunctions")
 class Ddms20ResourceBuilder : Builder<Ddms20Resource> {
     companion object {
         fun ddms20(init: Ddms20ResourceBuilder.() -> Unit): Ddms20Resource =

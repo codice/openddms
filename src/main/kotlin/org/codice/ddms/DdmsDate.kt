@@ -1,18 +1,11 @@
-/**
- * Copyright (c) Codice Foundation
- *
- * <p>This is free software: you can redistribute it and/or modify it under the terms of the GNU
- * Lesser General Public License as published by the Free Software Foundation, either version 3 of
- * the License, or any later version.
- *
- * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details. A copy of the GNU Lesser General Public
- * License is distributed along with this program and can be found at
- * <http://www.gnu.org/licenses/lgpl.html>.
- */
+/*
+Copyright (c) 2019 Codice Foundation
+Released under the GNU Lesser General Public License; see
+http://www.gnu.org/licenses/lgpl.html
+*/
 package org.codice.ddms
 
+import java.lang.IllegalArgumentException
 import java.time.DateTimeException
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
@@ -61,26 +54,25 @@ class DdmsDate {
     }
 
     constructor(date: String) {
-        require(isValid(date)) {
-            "Invalid date: $date"
-        }
-
         dateString = date
-
         if (!isUnknown() && !isNotApplicable()) {
-            parsedDate = datetimeFormatter.parse(date)
+            try {
+                parsedDate = datetimeFormatter.parse(date)
+            } catch (e: DateTimeParseException) {
+                throw IllegalArgumentException("Invalid date: $date")
+            }
         } else {
             parsedDate = null
         }
     }
 
     constructor(date: TemporalAccessor) {
-        require(isValid(date)) {
-            "Invalid date: $date"
-        }
-
-        dateString = datetimeFormatter.format(date)
         parsedDate = date
+        try {
+            dateString = datetimeFormatter.format(date)
+        } catch (e: DateTimeParseException) {
+            throw IllegalArgumentException("Invalid date: $date")
+        }
     }
 
     fun isUnknown() = dateString == UNKNOWN
@@ -104,9 +96,5 @@ class DdmsDate {
         return true
     }
 
-    override fun hashCode(): Int {
-        var result = dateString.hashCode()
-        result = 31 * result + (parsedDate?.hashCode() ?: 0)
-        return result
-    }
+    override fun hashCode(): Int = dateString.hashCode()
 }

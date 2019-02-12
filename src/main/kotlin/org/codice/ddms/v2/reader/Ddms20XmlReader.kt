@@ -1,16 +1,8 @@
-/**
- * Copyright (c) Codice Foundation
- *
- * <p>This is free software: you can redistribute it and/or modify it under the terms of the GNU
- * Lesser General Public License as published by the Free Software Foundation, either version 3 of
- * the License, or any later version.
- *
- * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details. A copy of the GNU Lesser General Public
- * License is distributed along with this program and can be found at
- * <http://www.gnu.org/licenses/lgpl.html>.
- */
+/*
+Copyright (c) 2019 Codice Foundation
+Released under the GNU Lesser General Public License; see
+http://www.gnu.org/licenses/lgpl.html
+*/
 package org.codice.ddms.v2.reader
 
 import org.codice.ddms.DdmsDate
@@ -36,14 +28,13 @@ import org.codice.ddms.v2.summary.geospatial.Datum
 import org.codice.ddms.v2.summary.geospatial.UnitOfMeasure
 import org.codice.ddms.v2.summary.geospatial.VerticalDistance
 import org.codice.ddms.xml.util.XmlConstants
-import org.codice.ddms.xml.util.nextTag
 import org.slf4j.LoggerFactory
 import javax.xml.stream.XMLStreamConstants
 import javax.xml.stream.XMLStreamReader
 
 private const val DDMS_20_NAMESPACE = "http://metadata.dod.mil/mdr/ns/DDMS/2.0/"
 
-@Suppress("LargeClass", "TooManyFunctions") // TODO: Could break this up into logical parts to make this 'smaller'
+@Suppress("LargeClass", "TooManyFunctions")
 class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStreamReader by reader {
     private val logger = LoggerFactory.getLogger(Ddms20XmlReader::class.java)
 
@@ -122,39 +113,10 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
             securityAttributes(getSecurityAttributes())
             nextTag("creator/publisher/contributor/point of contact/")
             when (localName) {
-                "Organization" -> organization {
-                    parseProducer("Organization")
-                }
-                "Person" -> person {
-                    nextTag("person name/phone/email")
-                    while (localName != "Person") {
-                        when (localName) {
-                            "name" -> names(elementText)
-                            "surname" -> surname(elementText)
-                            "userID" -> userId(elementText)
-                            "affiliation" -> affiliation(elementText)
-                            "phone" -> phones(elementText)
-                            "email" -> emails(elementText)
-                        }
-                        nextTag("person name/phone/email")
-                    }
-                }
-                "Service" -> service {
-                    parseProducer("Service")
-                }
+                "Organization" -> parseOrganization()
+                "Person" -> parsePerson()
+                "Service" -> parseService()
             }
-        }
-    }
-
-    private fun <T : ProducerBuilder<T>> ProducerBuilder<T>.parseProducer(type: String) {
-        nextTag("$type name/phone/email")
-        while (localName != type) {
-            when (localName) {
-                "name" -> names(elementText)
-                "phone" -> phones(elementText)
-                "email" -> emails(elementText)
-            }
-            nextTag("$type name/phone/email")
         }
     }
 
@@ -246,6 +208,159 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
                 nextTag("geographicIdentifier/boundingBox/boundingGeometry/postalAddress/verticalExtent")
             }
         }
+    }
+
+    private fun getVerticalDistance(): VerticalDistance {
+        val unit = getDdmsAttribute("unitOfMeasure")
+        val datum = getDdmsAttribute("datum")
+        return VerticalDistance(elementText.toDouble(),
+                if (unit.isNotBlank()) UnitOfMeasure.valueOf(unit) else null,
+                if (datum.isNotBlank()) Datum.valueOf(datum) else null)
+    }
+
+    private fun parseRelatedResources() {
+        ddms20Builder.relatedResources {
+            relationship(getDdmsAttribute("relationship"))
+            direction(RelatedResources.Direction.valueOf(getDdmsAttribute("direction").capitalize()))
+            securityAttributes(getSecurityAttributes())
+            nextTag()
+            while (localName != "relatedResources") {
+                if (eventType != XMLStreamConstants.END_ELEMENT) {
+                    resource {
+                        qualifier(getDdmsAttribute("qualifier"))
+                        value(getDdmsAttribute("value"))
+
+                        nextTag()
+                        while (localName != "RelatedResource") {
+                            if (eventType != XMLStreamConstants.END_ELEMENT) {
+                                link {
+                                    href(getAttributeValue(XmlConstants.xlinkNamespace, "href"))
+                                    role(getAttributeValue(XmlConstants.xlinkNamespace, "role"))
+                                    title(getAttributeValue(XmlConstants.xlinkNamespace, "title"))
+                                    label(getAttributeValue(XmlConstants.xlinkNamespace, "label"))
+                                }
+                            }
+                            nextTag()
+                        }
+                    }
+                }
+                nextTag()
+            }
+        }
+    }
+
+    override fun getAttributeValue(namespaceURI: String?, localName: String): String {
+        return reader.getAttributeValue(namespaceURI, localName) ?: ""
+    }
+
+    private fun getSrsAttributes(): SrsAttributes {
+        val dim = getAttributeValue(null, "srsDimension")
+        return SrsAttributesBuilder.srsAttributes {
+            srsName(getAttributeValue(null, "srsName"))
+            srsDimension(if (dim.isNotEmpty()) dim.toInt() else 0)
+            axisLabels(getAttributeValue(null, "axisLabels").split(" "))
+            uomLabels(getAttributeValue(null, "uomLabels").split(" "))
+        }
+    }
+
+    private fun getSecurityAttributes(): SecurityAttributes {
+        val securityAttributeBuilder = SecurityAttributeBuilder()
+
+        for (i in 0 until attributeCount) {
+            val name = getAttributeName(i)
+            val value = getAttributeValue(i)
+
+            if (name.namespaceURI == "urn:us:gov:ic:ism:v2") {
+                when (name.localPart) {
+                    "classification" -> securityAttributeBuilder.classification(Classification.getEnum(value))
+                    "ownerProducer" -> securityAttributeBuilder.ownerProducers(value.split(" "))
+                    "SCIcontrols" -> securityAttributeBuilder.sciControls(value.split(" "))
+                    "SARIdentifier" -> securityAttributeBuilder.sarIdentifiers(value.split(" "))
+                    "disseminationControls" -> securityAttributeBuilder.disseminationControls(value.split(" "))
+                    "FGIsourceOpen" -> securityAttributeBuilder.fgiSourceOpen(value.split(" "))
+                    "FGIsourceProtected" -> securityAttributeBuilder.fgiSourceProtected(value.split(" "))
+                    "releasableTo" -> securityAttributeBuilder.releasableTo(value.split(" "))
+                    "nonICmarkings" -> securityAttributeBuilder.nonIcMarkings(value.split(" "))
+                    "classifiedBy" -> securityAttributeBuilder.classifiedBy(value)
+                    "derivativelyClassifiedBy" -> securityAttributeBuilder.derivativelyClassifiedBy(value)
+                    "classificationReason" -> securityAttributeBuilder.classificationReason(value)
+                    "derivedFrom" -> securityAttributeBuilder.derivedFrom(value)
+                    "declassDate" -> securityAttributeBuilder.declassDate(getDdmsDate(value,
+                            "ism:declassDate is an invalid date"))
+                    "declassEvent" -> securityAttributeBuilder.declassEvent(value)
+                    "declassException" -> securityAttributeBuilder.declassException(value.split(" "))
+                    "typeOfExemptedSource" -> securityAttributeBuilder.typeOfExemptedSource(value.split(" "))
+                    "dateOfExemptedSource" -> securityAttributeBuilder.dateOfExemptedSource(getDdmsDate(value,
+                            "ism:dateOfExemptedSource is an invalid date"))
+                    "declassManualReview" -> securityAttributeBuilder.declassManualReview(value!!.toBoolean())
+                    else -> logger.debug("Unhandled security attribute $localName")
+                }
+            }
+        }
+
+        return securityAttributeBuilder.build()
+    }
+
+    private fun getDdmsDate(date: String, errorMsg: String): DdmsDate {
+        return try {
+            DdmsDate(date)
+        } catch (e: IllegalArgumentException) {
+            throw IllegalStateException(errorMsg)
+        }
+    }
+
+    private fun getDdmsAttribute(name: String): String {
+        return getAttributeValue(DDMS_20_NAMESPACE, name)
+    }
+
+    override fun getElementText(): String {
+        return reader.elementText.trim()
+    }
+
+    /**
+     * Pass through to nextTag() but includes the name of the next tag for documenting / logging
+     * instead of having to make a comment
+     *
+     * @param documentedTag The name of what the next tag should be.
+     */
+    private fun nextTag(documentedTag: String): Int {
+        logger.trace("Expecting '$documentedTag' as next text")
+        return nextTag()
+    }
+
+    private fun <T : ProducerBuilder<T>> ProducerBuilder<T>.parseProducer(type: String) {
+        nextTag("$type name/phone/email")
+        while (localName != type) {
+            when (localName) {
+                "name" -> names(elementText)
+                "phone" -> phones(elementText)
+                "email" -> emails(elementText)
+            }
+            nextTag("$type name/phone/email")
+        }
+    }
+
+    private fun ContactBuilder.parsePerson() = person {
+        nextTag("person name/phone/email")
+        while (localName != "Person") {
+            when (localName) {
+                "name" -> names(elementText)
+                "surname" -> surname(elementText)
+                "userID" -> userId(elementText)
+                "affiliation" -> affiliation(elementText)
+                "phone" -> phones(elementText)
+                "email" -> emails(elementText)
+            }
+            nextTag("person name/phone/email")
+        }
+    }
+
+    private fun ContactBuilder.parseOrganization() = organization {
+        parseProducer("Organization")
+    }
+
+    private fun ContactBuilder.parseService() = service {
+        parseProducer("Service")
     }
 
     private fun GeospatialCoverageBuilder.parseGeographicIdentifier() {
@@ -364,112 +479,5 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
             nextTag("MaxVerticalExtent")
             maximum(getVerticalDistance())
         }
-    }
-
-    private fun getVerticalDistance(): VerticalDistance {
-        val unit = getDdmsAttribute("unitOfMeasure")
-        val datum = getDdmsAttribute("datum")
-        return VerticalDistance(elementText.toDouble(),
-                if (unit.isNotBlank()) UnitOfMeasure.valueOf(unit) else null,
-                if (datum.isNotBlank()) Datum.valueOf(datum) else null)
-    }
-
-    private fun parseRelatedResources() {
-        ddms20Builder.relatedResources {
-            relationship(getDdmsAttribute("relationship"))
-            direction(RelatedResources.Direction.valueOf(getDdmsAttribute("direction").capitalize()))
-            securityAttributes(getSecurityAttributes())
-            nextTag()
-            while (localName != "relatedResources") {
-                if (eventType != XMLStreamConstants.END_ELEMENT) {
-                    resource {
-                        qualifier(getDdmsAttribute("qualifier"))
-                        value(getDdmsAttribute("value"))
-
-                        nextTag()
-                        while (localName != "RelatedResource") {
-                            if (eventType != XMLStreamConstants.END_ELEMENT) {
-                                link {
-                                    href(getAttributeValue(XmlConstants.xlinkNamespace, "href"))
-                                    role(getAttributeValue(XmlConstants.xlinkNamespace, "role"))
-                                    title(getAttributeValue(XmlConstants.xlinkNamespace, "title"))
-                                    label(getAttributeValue(XmlConstants.xlinkNamespace, "label"))
-                                }
-                            }
-                            nextTag()
-                        }
-                    }
-                }
-                nextTag()
-            }
-        }
-    }
-
-    override fun getAttributeValue(namespaceURI: String?, localName: String): String {
-        return reader.getAttributeValue(namespaceURI, localName) ?: ""
-    }
-
-    private fun getSrsAttributes(): SrsAttributes {
-        val dim = getAttributeValue(null, "srsDimension")
-        return SrsAttributesBuilder.srsAttributes {
-            srsName(getAttributeValue(null, "srsName"))
-            srsDimension(if (dim.isNotEmpty()) dim.toInt() else 0)
-            axisLabels(getAttributeValue(null, "axisLabels").split(" "))
-            uomLabels(getAttributeValue(null, "uomLabels").split(" "))
-        }
-    }
-
-    private fun getSecurityAttributes(): SecurityAttributes {
-        val securityAttributeBuilder = SecurityAttributeBuilder()
-
-        for (i in 0 until attributeCount) {
-            val name = getAttributeName(i)
-            val value = getAttributeValue(i)
-
-            if (name.namespaceURI == "urn:us:gov:ic:ism:v2") {
-                when (name.localPart) {
-                    "classification" -> securityAttributeBuilder.classification(Classification.getEnum(value))
-                    "ownerProducer" -> securityAttributeBuilder.ownerProducers(value.split(" "))
-                    "SCIcontrols" -> securityAttributeBuilder.sciControls(value.split(" "))
-                    "SARIdentifier" -> securityAttributeBuilder.sarIdentifiers(value.split(" "))
-                    "disseminationControls" -> securityAttributeBuilder.disseminationControls(value.split(" "))
-                    "FGIsourceOpen" -> securityAttributeBuilder.fgiSourceOpen(value.split(" "))
-                    "FGIsourceProtected" -> securityAttributeBuilder.fgiSourceProtected(value.split(" "))
-                    "releasableTo" -> securityAttributeBuilder.releasableTo(value.split(" "))
-                    "nonICmarkings" -> securityAttributeBuilder.nonIcMarkings(value.split(" "))
-                    "classifiedBy" -> securityAttributeBuilder.classifiedBy(value)
-                    "derivativelyClassifiedBy" -> securityAttributeBuilder.derivativelyClassifiedBy(value)
-                    "classificationReason" -> securityAttributeBuilder.classificationReason(value)
-                    "derivedFrom" -> securityAttributeBuilder.derivedFrom(value)
-                    "declassDate" -> securityAttributeBuilder.declassDate(getDdmsDate(value,
-                            "ism:declassDate is an invalid date"))
-                    "declassEvent" -> securityAttributeBuilder.declassEvent(value)
-                    "declassException" -> securityAttributeBuilder.declassException(value.split(" "))
-                    "typeOfExemptedSource" -> securityAttributeBuilder.typeOfExemptedSource(value.split(" "))
-                    "dateOfExemptedSource" -> securityAttributeBuilder.dateOfExemptedSource(getDdmsDate(value,
-                            "ism:dateOfExemptedSource is an invalid date"))
-                    "declassManualReview" -> securityAttributeBuilder.declassManualReview(value!!.toBoolean())
-                    else -> logger.debug("Unhandled security attribute $localName")
-                }
-            }
-        }
-
-        return securityAttributeBuilder.build()
-    }
-
-    private fun getDdmsDate(date: String, errorMsg: String): DdmsDate {
-        return try {
-            DdmsDate(date)
-        } catch (e: IllegalArgumentException) {
-            throw IllegalStateException(errorMsg)
-        }
-    }
-
-    private fun getDdmsAttribute(name: String): String {
-        return getAttributeValue(DDMS_20_NAMESPACE, name)
-    }
-
-    override fun getElementText(): String {
-        return reader.elementText.trim()
     }
 }

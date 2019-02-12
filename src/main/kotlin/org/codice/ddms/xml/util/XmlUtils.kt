@@ -1,20 +1,11 @@
-/**
- * Copyright (c) Codice Foundation
- *
- * <p>This is free software: you can redistribute it and/or modify it under the terms of the GNU
- * Lesser General Public License as published by the Free Software Foundation, either version 3 of
- * the License, or any later version.
- *
- * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details. A copy of the GNU Lesser General Public
- * License is distributed along with this program and can be found at
- * <http://www.gnu.org/licenses/lgpl.html>.
- */
+/*
+Copyright (c) 2019 Codice Foundation
+Released under the GNU Lesser General Public License; see
+http://www.gnu.org/licenses/lgpl.html
+*/
 package org.codice.ddms.xml.util
 
 import org.codice.ddms.xml.util.XmlConstants.xlinkNamespace
-import javax.xml.stream.XMLStreamReader
 import javax.xml.stream.XMLStreamWriter
 
 fun XMLStreamWriter.namespace(prefix: String, uri: String) {
@@ -45,12 +36,3 @@ fun XMLStreamWriter.emptyElement(namespaceUri: String, prefix: String, name: Str
 }
 
 fun XMLStreamWriter.xlinkAttribute(name: String, value: String) = writeAttribute(xlinkNamespace, name, value)
-
-/**
- * Pass through to nextTag() but includes the name of the next tag for documenting / logging
- * instead of having to make a comment
- *
- * @param documentedTag The name of what the next tag should be.
- */
-@Suppress("UnusedPrivateMember") // TODO: I think we should keep suppressing this one, or we could log it
-fun XMLStreamReader.nextTag(documentedTag: String) = nextTag()

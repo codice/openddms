@@ -1,16 +1,8 @@
-/**
- * Copyright (c) Codice Foundation
- *
- * <p>This is free software: you can redistribute it and/or modify it under the terms of the GNU
- * Lesser General Public License as published by the Free Software Foundation, either version 3 of
- * the License, or any later version.
- *
- * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details. A copy of the GNU Lesser General Public
- * License is distributed along with this program and can be found at
- * <http://www.gnu.org/licenses/lgpl.html>.
- */
+/*
+Copyright (c) 2019 Codice Foundation
+Released under the GNU Lesser General Public License; see
+http://www.gnu.org/licenses/lgpl.html
+*/
 package org.codice.ddms.gml.v3
 
 data class SrsAttributes @JvmOverloads constructor(
@@ -27,25 +19,25 @@ data class SrsAttributes @JvmOverloads constructor(
 
     private fun srsNameToString(): String {
         return if (srsName.isNotBlank()) {
-            "srsName=\"$srsName\""
+            """srsName="$srsName""""
         } else ""
     }
 
     private fun srsDimensionToString(): String {
         return if (srsDimension > 0) {
-            " srsDimension=\"$srsDimension\""
+            """ srsDimension="$srsDimension""""
         } else ""
     }
 
     private fun axisLabelsToString(): String {
         return if (axisLabels.any(String::isNotBlank)) {
-            " axisLabels=\"${axisLabels.joinToString(" ")}\""
+            """ axisLabels="${axisLabels.joinToString(" ")}""""
         } else ""
     }
 
     private fun uomLabelsToString(): String {
         return if (uomLabels.any(String::isNotBlank)) {
-            " uomLabels=\"${uomLabels.joinToString(" ")}\""
+            """ uomLabels="${uomLabels.joinToString(" ")}""""
         } else ""
     }
 
