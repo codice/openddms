@@ -137,4 +137,16 @@ class DdmsDateTest {
         val date = DdmsDate("Not Applicable")
         assertThat(date.isUnknown(), equalTo(false))
     }
+
+    @Test
+    fun `Sanity check for UNKNOWN date`() {
+        val date = DdmsDate("Unknown")
+        assertThat(date, `is`(DdmsDate.unknown))
+    }
+
+    @Test
+    fun `Sanity check for NOT APPLICABLE date`() {
+        val date = DdmsDate("Not Applicable")
+        assertThat(date, `is`(DdmsDate.notApplicable))
+    }
 }
