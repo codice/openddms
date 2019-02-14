@@ -33,9 +33,9 @@ class PointTest {
 
     @Test
     fun `a valid Point creates correct xml`() {
-        val xml = "<gml:Point gml:id=\"id\" srsName=\"wgs84\" xmlns:gml=\"http://www.opengis.net/gml\">" +
-                "<gml:pos xmlns:gml=\"http://www.opengis.net/gml\">0.0 0.0</gml:pos>" +
-                "</gml:Point>"
+        val xml = """<gml:Point gml:id="id" srsName="wgs84" xmlns:gml="http://www.opengis.net/gml">
+                    |<gml:pos xmlns:gml="http://www.opengis.net/gml">0.0 0.0</gml:pos>
+                    |</gml:Point>""".trimMargin().replace("\n", "")
         val point = Point("id", position, srsAttributes)
 
         assertThat(point.toString(), equalTo(xml))

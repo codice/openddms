@@ -14,7 +14,7 @@ import org.junit.Test
 class PositionTest {
     @Test
     fun `a Position creates correct xml`() {
-        val xml = "<gml:pos srsName=\"wgs84\" xmlns:gml=\"http://www.opengis.net/gml\">0.0 0.0</gml:pos>"
+        val xml = """<gml:pos srsName="wgs84" xmlns:gml="http://www.opengis.net/gml">0.0 0.0</gml:pos>"""
         val position = Position(listOf(0.0, 0.0), SrsAttributes(srsName = "wgs84"))
 
         assertThat(position.toString(), equalTo(xml))

@@ -37,13 +37,13 @@ class PolygonTest {
 
     @Test
     fun `a valid Polygon creates correct xml`() {
-        val xml = "<gml:Polygon gml:id=\"id\" srsName=\"wgs84\" xmlns:gml=\"http://www.opengis.net/gml\">" +
-                "<gml:exterior><gml:LinearRing xmlns:gml=\"http://www.opengis.net/gml\">" +
-                "<gml:pos xmlns:gml=\"http://www.opengis.net/gml\">0.0 0.0</gml:pos>" +
-                "<gml:pos xmlns:gml=\"http://www.opengis.net/gml\">1.0 1.0</gml:pos>" +
-                "<gml:pos xmlns:gml=\"http://www.opengis.net/gml\">2.0 2.0</gml:pos>" +
-                "<gml:pos xmlns:gml=\"http://www.opengis.net/gml\">3.0 3.0</gml:pos>" +
-                "</gml:LinearRing></gml:exterior></gml:Polygon>"
+        val xml = """<gml:Polygon gml:id="id" srsName="wgs84" xmlns:gml="http://www.opengis.net/gml">
+                    |<gml:exterior><gml:LinearRing xmlns:gml="http://www.opengis.net/gml">
+                    |<gml:pos xmlns:gml="http://www.opengis.net/gml">0.0 0.0</gml:pos>
+                    |<gml:pos xmlns:gml="http://www.opengis.net/gml">1.0 1.0</gml:pos>
+                    |<gml:pos xmlns:gml="http://www.opengis.net/gml">2.0 2.0</gml:pos>
+                    |<gml:pos xmlns:gml="http://www.opengis.net/gml">3.0 3.0</gml:pos>
+                    |</gml:LinearRing></gml:exterior></gml:Polygon>""".trimMargin().replace("\n", "")
         val polygon = Polygon("id", exterior, srsAttributes)
 
         assertThat(polygon.toString(), equalTo(xml))

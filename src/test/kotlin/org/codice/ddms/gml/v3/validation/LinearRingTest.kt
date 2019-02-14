@@ -29,13 +29,13 @@ class LinearRingTest {
 
     @Test
     fun `a valid LinearRing creates correct xml`() {
-        val xml = "<gml:LinearRing xmlns:gml=\"http://www.opengis.net/gml\">" +
-                "<gml:pos xmlns:gml=\"http://www.opengis.net/gml\">0.0</gml:pos>" +
-                "<gml:pos xmlns:gml=\"http://www.opengis.net/gml\">0.0</gml:pos>" +
-                "<gml:pos xmlns:gml=\"http://www.opengis.net/gml\">0.0</gml:pos>" +
-                "<gml:pos xmlns:gml=\"http://www.opengis.net/gml\">0.0</gml:pos>" +
-                "<gml:pos xmlns:gml=\"http://www.opengis.net/gml\">0.0</gml:pos>" +
-                "</gml:LinearRing>"
+        val xml = """<gml:LinearRing xmlns:gml="http://www.opengis.net/gml">
+                    |<gml:pos xmlns:gml="http://www.opengis.net/gml">0.0</gml:pos>
+                    |<gml:pos xmlns:gml="http://www.opengis.net/gml">0.0</gml:pos>
+                    |<gml:pos xmlns:gml="http://www.opengis.net/gml">0.0</gml:pos>
+                    |<gml:pos xmlns:gml="http://www.opengis.net/gml">0.0</gml:pos>
+                    |<gml:pos xmlns:gml="http://www.opengis.net/gml">0.0</gml:pos>
+                    |</gml:LinearRing>""".trimMargin().replace("\n", "")
         val linearRing = LinearRing((1..5).map { Position(listOf(0.0)) })
 
         assertThat(linearRing.toString(), equalTo(xml))

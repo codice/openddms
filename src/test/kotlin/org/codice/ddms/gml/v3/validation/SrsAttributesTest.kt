@@ -14,7 +14,7 @@ import java.lang.IllegalArgumentException
 class SrsAttributesTest {
     @Test
     fun `SrsAttributes create valid xml attributes`() {
-        val xml = "srsName=\"srsName\" srsDimension=\"2\" axisLabels=\"axis labels\" uomLabels=\"uom labels\""
+        val xml = """srsName="srsName" srsDimension="2" axisLabels="axis labels" uomLabels="uom labels""""
         val srsAttributes = SrsAttributes("srsName", 2, listOf("axis", "labels"), listOf("uom", "labels"))
 
         assertThat(srsAttributes.toString(), equalTo(xml))
