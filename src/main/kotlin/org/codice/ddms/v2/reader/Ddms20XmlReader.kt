@@ -233,15 +233,17 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
             relationship(getDdmsAttribute("relationship"))
             direction(RelatedResources.Direction.valueOf(getDdmsAttribute("direction").capitalize()))
             securityAttributes(getSecurityAttributes())
-            nextTag()
+
+            val relatedResource = "RelatedResource"
+            nextTag(relatedResource)
             while (localName != "relatedResources") {
                 if (eventType != XMLStreamConstants.END_ELEMENT) {
                     resource {
                         qualifier(getDdmsAttribute("qualifier"))
                         value(getDdmsAttribute("value"))
 
-                        nextTag()
-                        while (localName != "RelatedResource") {
+                        nextTag("link")
+                        while (localName != relatedResource) {
                             if (eventType != XMLStreamConstants.END_ELEMENT) {
                                 link {
                                     href(getAttributeValue(XmlConstants.xlinkNamespace, "href"))
@@ -250,11 +252,11 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
                                     label(getAttributeValue(XmlConstants.xlinkNamespace, "label"))
                                 }
                             }
-                            nextTag()
+                            nextTag("link")
                         }
                     }
                 }
-                nextTag()
+                nextTag(relatedResource)
             }
         }
     }
@@ -426,7 +428,7 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
             nextTag("exterior")
             nextTag("LinearRing")
             exterior {
-                nextTag()
+                nextTag("pos")
                 while (localName != "LinearRing") {
                     if (eventType != XMLStreamConstants.END_ELEMENT) {
                         position {
@@ -437,7 +439,7 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
                                     .toList())
                         }
                     }
-                    nextTag()
+                    nextTag("pos")
                 }
             }
         }
@@ -460,7 +462,7 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
 
     private fun GeospatialCoverageBuilder.parsePostalAddress() {
         postalAddress {
-            nextTag()
+            nextTag("street/city/state or province/postalCode/countryCode")
             while (localName != "postalAddress") {
                 if (eventType != XMLStreamConstants.END_ELEMENT) {
                     when (localName) {
@@ -473,7 +475,7 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
                                 getDdmsAttribute("value"))
                     }
                 }
-                nextTag()
+                nextTag("street/city/state or province/postalCode/countryCode")
             }
         }
     }
