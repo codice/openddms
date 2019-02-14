@@ -23,6 +23,21 @@ import org.codice.ddms.v2.summary.SubjectCoverage
 import org.codice.ddms.v2.summary.TemporalCoverage
 import org.codice.ddms.v2.summary.VirtualCoverage
 
+/**
+ * Data class representing a DDMS 2.0 resource.
+ *
+ * The following are required to have a valid DDMS 2.0 document:
+ * - At least one [Title]
+ * - At least one [Identifier]
+ * - At least one of the following:
+ *     - [creator][Contact]
+ *     - [publisher][Contact]
+ *     - [contributor][Contact]
+ *     - [pointOfContact][Contact]
+ *
+ * @throws IllegalArgumentException If [identifiers] is empty, [titles] is empty, or [creators], [publishers],
+ * [contributors], and [pointOfContacts] are all empty.
+ */
 data class Ddms20Resource(
     override val identifiers: List<Identifier>,
     override val titles: List<Title>,

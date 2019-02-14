@@ -7,6 +7,9 @@ package org.codice.ddms.v2.security.ism
 
 import org.codice.ddms.DdmsDate
 
+/**
+ * All possible security attributes that a secure element can have.
+ */
 data class SecurityAttributes(
     val classification: Classification = Classification.NO_CLASSIFICATION,
     val ownerProducer: List<String> = emptyList(),

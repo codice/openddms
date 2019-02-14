@@ -8,6 +8,15 @@ package org.codice.ddms.v2.summary.geospatial
 import org.codice.ddms.gml.v3.Point
 import org.codice.ddms.gml.v3.Polygon
 
+/**
+ * A wrapper for expressing a geographic location as a point or polygon.
+ *
+ * Must have at least one element in [polygons] or [points].
+ *
+ * @param polygons The [polygons][Polygon] that are described by this geographic extent.
+ * @param points The [points][Point] that are described by this geographic extent.
+ * @throws IllegalArgumentException If [polygons] and [points] are empty.
+ */
 data class BoundingGeometry(
     val polygons: List<Polygon>,
     val points: List<Point>

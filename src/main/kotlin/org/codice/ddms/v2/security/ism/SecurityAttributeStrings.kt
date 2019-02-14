@@ -5,6 +5,9 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.security.ism
 
+/**
+ * Utility class to convert [SecurityAttributes] values to [String].
+ */
 class SecurityAttributeStrings(securityAttributes: SecurityAttributes) {
     val classification = securityAttributes.classification
     val classifiedBy = securityAttributes.classifiedBy

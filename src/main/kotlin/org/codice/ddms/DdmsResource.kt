@@ -22,6 +22,11 @@ import org.codice.ddms.v2.summary.SubjectCoverage
 import org.codice.ddms.v2.summary.TemporalCoverage
 import org.codice.ddms.v2.summary.VirtualCoverage
 
+/**
+ * An immutable interface for interacting with a DDMS document.
+ *
+ * Currently it's using DDMS 2.0 objects for it's fields. It will need to be generic for any version of DDMS.
+ */
 interface DdmsResource {
     val identifiers: List<Identifier>
     val titles: List<Title>

@@ -8,6 +8,7 @@ object Versions {
     const val project = "1.0-SNAPSHOT"
 
     const val javaTarget = "1.8"
+    const val dokkaJvmVersion = 8
 
     const val kotlin = "1.3.21"
     const val dokka = "0.9.17"

@@ -56,11 +56,20 @@ private const val GML_NAMESPACE = "http://www.opengis.net/gml"
 private const val GML_PREFIX = "gml"
 
 @Suppress("LargeClass", "TooManyFunctions")
+/**
+ * Creates an XML document from a [DdmsResource].
+ *
+ * @param ddms The DDMS resource to write.
+ * @param writer A preconfigured [XMLStreamWriter] to use for creating the XML document.
+ */
 class Ddms20XmlWriter(
     private val ddms: DdmsResource,
     private val writer: XMLStreamWriter
 ) : DdmsWriter, XMLStreamWriter by writer {
 
+    /**
+     * Writes out the [DdmsResource] using the configured [writer].
+     */
     override fun write() {
         writeStartDocument()
         ddmsElement("Resource") {
@@ -434,7 +443,7 @@ class Ddms20XmlWriter(
             ddmsAttribute("datum", verticalExtent.datum.name)
 
             writeVerticalDistance(verticalExtent.minVerticalExtent, "MinVerticalExtent")
-            writeVerticalDistance(verticalExtent.maxVerticalExtentValue, "MaxVerticalExtent")
+            writeVerticalDistance(verticalExtent.maxVerticalExtent, "MaxVerticalExtent")
         }
     }
 

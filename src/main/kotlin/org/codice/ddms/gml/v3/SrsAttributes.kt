@@ -5,6 +5,20 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.gml.v3
 
+/**
+ * Data class representing all SRS attributes a gml element could have.
+ *
+ * [srsName](http://schemas.opengis.net/gml/3.1.1/base/referenceSystems.xsd)
+ *
+ * [srsDimension, axisLabels, uomLabels](http://schemas.opengis.net/gml/3.1.1/base/geometryBasic0d1d.xsd)
+ *
+ * @param srsName The name by which this reference system is identified..
+ * @param srsDimension The length of coordinate sequence (the number of entries in the list). This dimension is
+specified by the coordinate reference system. Must be non-negative.
+ * @param axisLabels List of labels for all the axes of this CRS.
+ * @param uomLabels List of unit of measure (uom) labels for all the axes of this CRS,
+ * @throws IllegalArgumentException If [srsDimension] is negative.
+ */
 data class SrsAttributes @JvmOverloads constructor(
     val srsName: String = "",
     val srsDimension: Int = 0,
@@ -41,6 +55,9 @@ data class SrsAttributes @JvmOverloads constructor(
         } else ""
     }
 
+    /**
+     * Used internally in other gml classes to write the XML attribute string.
+     */
     override fun toString(): String {
         return srsNameToString() +
                 srsDimensionToString() +

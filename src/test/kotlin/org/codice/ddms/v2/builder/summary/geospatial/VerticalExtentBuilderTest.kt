@@ -23,7 +23,7 @@ class VerticalExtentBuilderTest {
                 .unit(verticalExtent.unit)
                 .datum(verticalExtent.datum)
                 .minimum(verticalExtent.minVerticalExtent)
-                .maximum(verticalExtent.maxVerticalExtentValue)
+                .maximum(verticalExtent.maxVerticalExtent)
                 .build()
 
         assertThat(result, equalTo(verticalExtent))
@@ -35,7 +35,7 @@ class VerticalExtentBuilderTest {
                 .unit(verticalExtent.unit)
                 .datum(verticalExtent.datum)
                 .minimum(verticalExtent.minVerticalExtent.value)
-                .maximum(verticalExtent.maxVerticalExtentValue)
+                .maximum(verticalExtent.maxVerticalExtent)
                 .build()
 
         assertThat(result, equalTo(verticalExtent))
@@ -47,7 +47,7 @@ class VerticalExtentBuilderTest {
                 .unit(verticalExtent.unit)
                 .datum(verticalExtent.datum)
                 .minimum(verticalExtent.minVerticalExtent)
-                .maximum(verticalExtent.maxVerticalExtentValue.value)
+                .maximum(verticalExtent.maxVerticalExtent.value)
                 .build()
 
         assertThat(result, equalTo(verticalExtent))
@@ -59,7 +59,7 @@ class VerticalExtentBuilderTest {
             unit(verticalExtent.unit)
             datum(verticalExtent.datum)
             minimum(verticalExtent.minVerticalExtent)
-            maximum(verticalExtent.maxVerticalExtentValue)
+            maximum(verticalExtent.maxVerticalExtent)
         }
 
         assertThat(result, equalTo(verticalExtent))

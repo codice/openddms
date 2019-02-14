@@ -8,6 +8,15 @@ package org.codice.ddms.v2.summary
 import org.codice.ddms.v2.security.ism.Classification
 import org.codice.ddms.v2.security.ism.SecurityAttributes
 
+/**
+ * An account of the content of the resource.
+ *
+ * @param securityAttributes The [SecurityAttributes] applicable to the description. [SecurityAttributes.classification]
+ * must not be [Classification.NO_CLASSIFICATION] and must contain a non-blank [SecurityAttributes.ownerProducer]
+ * @param value The content of the description.
+ * @throws IllegalArgumentException If [SecurityAttributes.classification] is [Classification.NO_CLASSIFICATION] or
+ * [SecurityAttributes.ownerProducer] is blank.
+ */
 data class Description(
     val securityAttributes: SecurityAttributes,
     val value: String

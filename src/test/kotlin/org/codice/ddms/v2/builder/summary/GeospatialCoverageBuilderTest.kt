@@ -119,7 +119,7 @@ class GeospatialCoverageBuilderTest {
                     unit(verticalExtent.unit)
                     datum(verticalExtent.datum)
                     minimum(verticalExtent.minVerticalExtent)
-                    maximum(verticalExtent.maxVerticalExtentValue)
+                    maximum(verticalExtent.maxVerticalExtent)
                 }
                 .build()
 

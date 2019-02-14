@@ -35,11 +35,21 @@ import javax.xml.stream.XMLStreamReader
 private const val DDMS_20_NAMESPACE = "http://metadata.dod.mil/mdr/ns/DDMS/2.0/"
 
 @Suppress("LargeClass", "TooManyFunctions")
+/**
+ * An XML reader that reads a DDMS 2.0 XML document and creates a [DdmsResource].
+ *
+ * @param reader A preconfigured [XMLStreamReader] used to read the DDMS 2.0 XML document.
+ */
 class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStreamReader by reader {
     private val logger = LoggerFactory.getLogger(Ddms20XmlReader::class.java)
 
     private val ddms20Builder = Ddms20ResourceBuilder()
 
+    /**
+     * Read the DDMS 2.0 XML document and create a [DdmsResource].
+     *
+     * @return An immutable [DdmsResource] from the [reader].
+     */
     override fun read(): DdmsResource {
         while (hasNext()) {
             val event = next()

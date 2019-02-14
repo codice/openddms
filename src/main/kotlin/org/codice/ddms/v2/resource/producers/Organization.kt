@@ -5,6 +5,13 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.resource.producers
 
+/**
+ * Information about an organization.
+ *
+ * [names] must not be empty.
+ *
+ * @throws IllegalArgumentException If [names] is empty.
+ */
 data class Organization(
     override val names: List<String>,
     override val phones: List<String> = emptyList(),

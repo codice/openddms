@@ -5,6 +5,9 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.xml.util
 
+/**
+ * Common constants used in XML documents.
+ */
 object XmlConstants {
     const val xsiNamespace = "http://www.w3.org/2001/XMLSchema-instance"
     const val xsiPrefix = "xsi"

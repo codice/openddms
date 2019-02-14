@@ -5,6 +5,19 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.summary.geospatial
 
+/**
+ * A wrapper for an identifier or reference to an identifier that describes a geographic extent using a name or other
+ * identifier.
+ *
+ * Must contain at least one [name][String], or [region][String], or [CountryCode] or [FacilityIdentifier].
+ *
+ * @param names The names of a place of interest, other than a country, region, or facility.
+ * @param regions The names of a sub-national or transnational geographic or geopolitical region that is a subject of
+ * the resource.
+ * @param countryCodes The [country codes][CountryCode] that the country goes by.
+ * @param facilityIdentifiers The [facility identifiers][FacilityIdentifier] applicable to the location.
+ * @throws IllegalArgumentException If [names] or [regions] or [countryCodes] or [facilityIdentifiers] are all empty.
+ */
 data class GeographicIdentifier(
     val names: List<String>,
     val regions: List<String>,

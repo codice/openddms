@@ -7,6 +7,18 @@ package org.codice.ddms.v2.summary
 
 import org.codice.ddms.v2.security.ism.SecurityAttributes
 
+/**
+ * A set of [resources][RelatedResource] related to the resource being described by a specified relationship and
+ * direction.
+ *
+ * @param relationship The relationship of some relationship type between the resource being described and other
+ * resources.
+ * @param direction Used to indicate the direction of the relationship between the resource being described and the
+ * target related resource.
+ * @param resources A list of [related resources][RelatedResource] identified being related to the resource described
+ * by the containing [DdmsResource][org.codice.ddms.DdmsResource].
+ * @param securityAttributes The [SecurityAttributes] applicable for the related resources.
+ */
 data class RelatedResources(
     val relationship: String,
     val direction: Direction = Direction.Outbound,
@@ -22,6 +34,16 @@ data class RelatedResources(
     }
 }
 
+/**
+ * An identifier for the resource being related to the resource described in the containing
+ * [DdmsResource][org.codice.ddms.DdmsResource].
+ *
+ * @param qualifier The formal identification system or encoding scheme by which the identifier value is to be
+ * interpreted.
+ * @param value An unambiguous reference to the resource within a given context. An internal, external, and/or universal
+ * identification number for a data asset or resource.
+ * @param links A list of [links][Link] for locating the [RelatedResource].
+ */
 data class RelatedResource(
     val qualifier: String,
     val value: String,
@@ -34,6 +56,14 @@ data class RelatedResource(
     }
 }
 
+/**
+ * A wrapper for an XLink locator element for the resource being described.
+ *
+ * @param href The location of the target [RelatedResource].
+ * @param role Identifies some resource that describes the intended property.
+ * @param title Describes the meaning of a link or resource in a human-readable fashion.
+ * @param label Provides a name for the link.
+ */
 data class Link(
     val href: String,
     val role: String = "",

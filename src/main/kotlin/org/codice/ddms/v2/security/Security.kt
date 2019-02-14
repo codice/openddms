@@ -8,6 +8,15 @@ package org.codice.ddms.v2.security
 import org.codice.ddms.v2.security.ism.Classification
 import org.codice.ddms.v2.security.ism.SecurityAttributes
 
+/**
+ * Security markings that specify how a data asset shall be stored, protected, and destroyed.
+ *
+ * [SecurityAttributes.classification] must not be [Classification.NO_CLASSIFICATION] and
+ * [SecurityAttributes.ownerProducer] must not be blank.
+ *
+ * @throws IllegalArgumentException If [SecurityAttributes.classification] equals [Classification.NO_CLASSIFICATION]
+ * or [SecurityAttributes.ownerProducer] is blank.
+ */
 data class Security(val securityAttributes: SecurityAttributes) {
     init {
         with(securityAttributes) {

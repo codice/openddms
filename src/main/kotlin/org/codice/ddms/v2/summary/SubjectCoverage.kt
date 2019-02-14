@@ -5,6 +5,15 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.summary
 
+/**
+ * Subject keyword(s) that characterize the subject matter of a resource.
+ *
+ * Must contain at least one [Category] or [keyword][String].
+ *
+ * @param categories A list of [Categories][Category] that are addressed in the resource.
+ * @param keywords A list of important words or concepts that are addressed in the resource.
+ * @throws IllegalArgumentException If [categories] or [keywords] are empty.
+ */
 data class SubjectCoverage(
     val categories: List<Category>,
     val keywords: List<String>

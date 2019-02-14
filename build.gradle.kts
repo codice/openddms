@@ -71,6 +71,7 @@ detekt {
 }
 
 tasks.withType<DokkaTask> {
-    outputFormat = "javadoc"
-    outputDirectory = "$buildDir/javadoc"
+    outputFormat = "html"
+    outputDirectory = "$buildDir/dokka"
+    jdkVersion = Versions.dokkaJvmVersion
 }
