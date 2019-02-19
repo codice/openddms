@@ -523,5 +523,5 @@ style:
     active: false
   WildcardImport:
     active: true
-    excludeImports: 'org.codice.compliance.SAMLSpecRefMessage.*,org.apache.cxf.rs.security.saml.sso.SSOConstants.*,java.util.*,kotlinx.android.synthetic.*'
+    excludeImports: ''
 

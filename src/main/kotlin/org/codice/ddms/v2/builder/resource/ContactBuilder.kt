@@ -7,9 +7,9 @@ package org.codice.ddms.v2.builder.resource
 
 import org.codice.ddms.Builder
 import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder
-import org.codice.ddms.v2.builder.producers.OrganizationBuilder
-import org.codice.ddms.v2.builder.producers.PersonBuilder
-import org.codice.ddms.v2.builder.producers.ServiceBuilder
+import org.codice.ddms.v2.builder.resource.producers.OrganizationBuilder
+import org.codice.ddms.v2.builder.resource.producers.PersonBuilder
+import org.codice.ddms.v2.builder.resource.producers.ServiceBuilder
 import org.codice.ddms.v2.resource.Contact
 import org.codice.ddms.v2.resource.producers.Producer
 import org.codice.ddms.v2.security.ism.SecurityAttributes

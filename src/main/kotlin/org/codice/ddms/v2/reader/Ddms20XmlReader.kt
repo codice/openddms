@@ -11,8 +11,8 @@ import org.codice.ddms.DdmsResource
 import org.codice.ddms.gml.v3.SrsAttributes
 import org.codice.ddms.gml.v3.builder.SrsAttributesBuilder
 import org.codice.ddms.v2.builder.Ddms20ResourceBuilder
-import org.codice.ddms.v2.builder.producers.ProducerBuilder
 import org.codice.ddms.v2.builder.resource.ContactBuilder
+import org.codice.ddms.v2.builder.resource.producers.ProducerBuilder
 import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder
 import org.codice.ddms.v2.builder.summary.GeospatialCoverageBuilder
 import org.codice.ddms.v2.builder.summary.geospatial.BoundingGeometryBuilder
@@ -262,6 +262,7 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
     }
 
     override fun getAttributeValue(namespaceURI: String?, localName: String): String {
+        logger.trace("reading attribute $namespaceURI:$localName")
         return reader.getAttributeValue(namespaceURI, localName) ?: ""
     }
 

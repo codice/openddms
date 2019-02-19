@@ -26,9 +26,9 @@ import org.codice.ddms.v2.builder.summary.geospatial.BoundingGeometryBuilder
 import org.codice.ddms.v2.builder.summary.geospatial.GeographicIdentifierBuilder
 import org.codice.ddms.v2.builder.summary.geospatial.PostalAddressBuilder
 import org.codice.ddms.v2.builder.summary.geospatial.VerticalExtentBuilder
-import org.codice.ddms.v2.builder.producers.OrganizationBuilder
-import org.codice.ddms.v2.builder.producers.PersonBuilder
-import org.codice.ddms.v2.builder.producers.ServiceBuilder
+import org.codice.ddms.v2.builder.resource.producers.OrganizationBuilder
+import org.codice.ddms.v2.builder.resource.producers.PersonBuilder
+import org.codice.ddms.v2.builder.resource.producers.ServiceBuilder
 import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder.Companion.securityAttributes
 import org.codice.ddms.v2.format.Extent
 import org.codice.ddms.v2.resource.Dates
