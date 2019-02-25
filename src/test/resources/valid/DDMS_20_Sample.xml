@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ddms:Resource xmlns:ddms='http://metadata.dod.mil/mdr/ns/DDMS/2.0/' xmlns:gml='http://www.opengis.net/gml'
+               xmlns:ism='urn:us:gov:ic:ism:v2' xmlns:xlink='http://www.w3.org/1999/xlink'>
+    <ddms:identifier ddms:qualifier='org:codice:ddms'
+                     ddms:value='identifier 1'/>
+    <ddms:identifier ddms:qualifier='org:codice:ddms'
+                     ddms:value='identifier 2'/>
+    <ddms:identifier ddms:qualifier='org:codice:ddms'
+                     ddms:value='identifier 3'/>
+    <ddms:title ism:classification='U' ism:ownerProducer='USA'>Sample DDMS 2.0</ddms:title>
+    <ddms:subtitle ism:classification='U' ism:ownerProducer='USA'>Subtitle</ddms:subtitle>
+    <ddms:language ddms:qualifier='urn:iso:std:iso:639:-2:ed-1:v1:en' ddms:value='eng'/>
+    <ddms:dates ddms:created='2016-08-01T09:30:06.613-04:00' ddms:infoCutOff='2018-02-07T12:27:30Z'
+                ddms:posted='2018-02-07T12:27:30Z' ddms:validTil='2017-08-01T09:30:06.613-04:00'/>
+    <ddms:source ddms:qualifier='http://purl.org/dc/terms/URI' ddms:schemaHref='http://www.opengis.net/sensorML/1.0.1'
+                 ddms:schemaQualifier='XSD'
+                 ddms:value='http://localhost:8080'/>
+    <ddms:type ddms:qualifier='org:codice:ddms' ddms:value='type 1'/>
+    <ddms:type ddms:qualifier='org:codice:ddms' ddms:value='type 2'/>
+    <ddms:type ddms:qualifier='org:codice:ddms' ddms:value='type 3'/>
+    <ddms:creator>
+        <ddms:Service>
+            <ddms:name>Service</ddms:name>
+        </ddms:Service>
+    </ddms:creator>
+    <ddms:publisher>
+        <ddms:Service>
+            <ddms:name>Service</ddms:name>
+        </ddms:Service>
+    </ddms:publisher>
+    <ddms:publisher>
+        <ddms:Organization>
+            <ddms:name>Codice</ddms:name>
+        </ddms:Organization>
+    </ddms:publisher>
+    <ddms:contributor>
+        <ddms:Organization>
+            <ddms:name>Codice</ddms:name>
+        </ddms:Organization>
+    </ddms:contributor>
+    <ddms:pointOfContact>
+        <ddms:Person>
+            <ddms:name/>
+            <ddms:surname/>
+            <ddms:affiliation>Affiliation</ddms:affiliation>
+            <ddms:phone>555-555-5555</ddms:phone>
+            <ddms:email/>
+        </ddms:Person>
+    </ddms:pointOfContact>
+    <ddms:format>
+        <ddms:Media>
+            <ddms:mimeType>text/xml</ddms:mimeType>
+            <ddms:medium>digital</ddms:medium>
+        </ddms:Media>
+    </ddms:format>
+    <ddms:subjectCoverage>
+        <ddms:Subject>
+            <ddms:category ddms:code='' ddms:label='EC16' ddms:qualifier='Mission Name'/>
+            <ddms:keyword ddms:value='McQ'/>
+            <ddms:keyword ddms:value='OmniSense'/>
+            <ddms:keyword ddms:value='UGS'/>
+            <ddms:keyword ddms:value='unattended'/>
+            <ddms:keyword ddms:value='ground'/>
+            <ddms:keyword ddms:value='sensor'/>
+            <ddms:keyword ddms:value='detector'/>
+            <ddms:keyword ddms:value='camera'/>
+            <ddms:keyword ddms:value='seismic'/>
+            <ddms:keyword ddms:value='image'/>
+            <ddms:keyword ddms:value='audio'/>
+            <ddms:keyword ddms:value='acoustic'/>
+            <ddms:keyword ddms:value='magnetic'/>
+            <ddms:keyword ddms:value='passive'/>
+            <ddms:keyword ddms:value='infrared'/>
+            <ddms:keyword ddms:value='IR'/>
+            <ddms:keyword ddms:value='pir'/>
+        </ddms:Subject>
+    </ddms:subjectCoverage>
+    <ddms:temporalCoverage>
+        <ddms:TimePeriod>
+            <ddms:name>sensorDescriptionValidTime</ddms:name>
+            <ddms:start>2016-08-01T09:30:06.613-04:00</ddms:start>
+            <ddms:end>2017-08-01T09:30:06.613-04:00</ddms:end>
+        </ddms:TimePeriod>
+    </ddms:temporalCoverage>
+    <ddms:geospatialCoverage>
+        <ddms:GeospatialExtent>
+            <ddms:geographicIdentifier>
+                <ddms:name>Location</ddms:name>
+                <ddms:countryCode ddms:qualifier='org:codice:ddms' ddms:value='USA'/>
+            </ddms:geographicIdentifier>
+            <ddms:boundingGeometry>
+                <gml:Point gml:id='location' srsDimension='3' srsName='EPSG:4979'>
+                    <gml:pos>35.638 -108.25 129.199</gml:pos>
+                </gml:Point>
+            </ddms:boundingGeometry>
+        </ddms:GeospatialExtent>
+    </ddms:geospatialCoverage>
+    <ddms:relatedResources ddms:direction='outbound' ddms:relationship='http://purl.org/dc/terms/references'
+                           ism:classification='U' ism:ownerProducer='USA'>
+        <ddms:RelatedResource ddms:qualifier='http://purl.org/dc/terms/URI'
+                              ddms:value='http://localhost:8080'>
+            <ddms:link
+                    xlink:href='http://localhost:8080'
+                    xlink:title='org:codice:ddms' xlink:type='locator'/>
+        </ddms:RelatedResource>
+        <ddms:RelatedResource ddms:qualifier='http://purl.org/dc/terms/URI' ddms:value='http://localhost:8080'>
+            <ddms:link xlink:href='http://localhost:8080' xlink:title='Endpoint'
+                       xlink:type='locator'/>
+        </ddms:RelatedResource>
+    </ddms:relatedResources>
+    <ddms:security ism:classification='U' ism:ownerProducer='USA'/>
+</ddms:Resource>

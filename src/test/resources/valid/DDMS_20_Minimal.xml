@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ddms:Resource
+        xmlns:ddms="http://metadata.dod.mil/mdr/ns/DDMS/2.0/"
+        xmlns:ICISM="urn:us:gov:ic:ism:v2">
+    <ddms:identifier ddms:qualifier="qualifier" ddms:value="value"/>
+    <ddms:title ICISM:classification="U" ICISM:ownerProducer="USA">Minimal DDMS 2.0 Document</ddms:title>
+    <ddms:creator>
+        <ddms:Organization>
+            <ddms:name>Codice</ddms:name>
+        </ddms:Organization>
+    </ddms:creator>
+    <ddms:subjectCoverage>
+        <ddms:Subject>
+            <ddms:keyword ddms:value="keyword"/>
+        </ddms:Subject>
+    </ddms:subjectCoverage>
+    <ddms:security ICISM:classification="U" ICISM:ownerProducer="USA"/>
+</ddms:Resource>

@@ -1,0 +1,122 @@
+<?xml version="1.0" ?>
+<ddms:Resource xmlns:ddms="http://metadata.dod.mil/mdr/ns/DDMS/2.0/" xmlns:ism="urn:us:gov:ic:ism:v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://metadata.dod.mil/mdr/ns/DDMS/2.0/DDMS-v2_0.xsd">
+    <ddms:identifier ddms:qualifier="org:codice:ddms" ddms:value="test"/>
+    <ddms:title ism:classification="U" ism:ownerProducer="ownerProducer" ism:SCIcontrols="sciControl" ism:SARIdentifier="sarIdentifier" ism:disseminationControls="disseminationControl" ism:FGIsourceOpen="fgiSourceOpen" ism:FGIsourceProtected="fgiSourceProtected" ism:releasableTo="releasableTo" ism:nonICmarkings="nonIcMarkings" ism:classifiedBy="classifiedBy" ism:derivativelyClassifiedBy="derivativelyClassifiedBy" ism:classificationReason="classificationReason" ism:derivedFrom="derivedFrom" ism:declassDate="2017-11-02" ism:declassEvent="declassEvent" ism:declassException="declassException" ism:typeOfExemptedSource="typeOfExemptedSource" ism:dateOfExemptedSource="2017-11-02" ism:declassManualReview="true">Full DDMS 2.0 Document</ddms:title>
+    <ddms:subtitle ism:classification="U" ism:ownerProducer="ownerProducer" ism:SCIcontrols="sciControl" ism:SARIdentifier="sarIdentifier" ism:disseminationControls="disseminationControl" ism:FGIsourceOpen="fgiSourceOpen" ism:FGIsourceProtected="fgiSourceProtected" ism:releasableTo="releasableTo" ism:nonICmarkings="nonIcMarkings" ism:classifiedBy="classifiedBy" ism:derivativelyClassifiedBy="derivativelyClassifiedBy" ism:classificationReason="classificationReason" ism:derivedFrom="derivedFrom" ism:declassDate="2017-11-02" ism:declassEvent="declassEvent" ism:declassException="declassException" ism:typeOfExemptedSource="typeOfExemptedSource" ism:dateOfExemptedSource="2017-11-02" ism:declassManualReview="true">A Testing Document</ddms:subtitle>
+    <ddms:description ism:classification="U" ism:ownerProducer="ownerProducer" ism:SCIcontrols="sciControl" ism:SARIdentifier="sarIdentifier" ism:disseminationControls="disseminationControl" ism:FGIsourceOpen="fgiSourceOpen" ism:FGIsourceProtected="fgiSourceProtected" ism:releasableTo="releasableTo" ism:nonICmarkings="nonIcMarkings" ism:classifiedBy="classifiedBy" ism:derivativelyClassifiedBy="derivativelyClassifiedBy" ism:classificationReason="classificationReason" ism:derivedFrom="derivedFrom" ism:declassDate="2017-11-02" ism:declassEvent="declassEvent" ism:declassException="declassException" ism:typeOfExemptedSource="typeOfExemptedSource" ism:dateOfExemptedSource="2017-11-02" ism:declassManualReview="true">Testing every element/attribute</ddms:description>
+    <ddms:language ddms:qualifier="ISO 639-1" ddms:value="EN"/>
+    <ddms:dates ddms:created="2017-11-02T10:55:24.225-07:00" ddms:posted="2017-11-02T10:55:24.225-07:00" ddms:validTil="2017-11-02T10:55:24.225-07:00" ddms:infoCutOff="2017-11-02T10:55:24.225-07:00"/>
+    <ddms:rights ddms:privacyAct="true" ddms:intellectualProperty="true" ddms:copyright="true"/>
+    <ddms:source ddms:qualifier="qualifier" ddms:value="value" ddms:schemaQualifier="schema" ddms:schemaHref="href"/>
+    <ddms:type ddms:qualifier="qualifier" ddms:value="value"/>
+    <ddms:creator ism:classification="U" ism:ownerProducer="ownerProducer" ism:SCIcontrols="sciControl" ism:SARIdentifier="sarIdentifier" ism:disseminationControls="disseminationControl" ism:FGIsourceOpen="fgiSourceOpen" ism:FGIsourceProtected="fgiSourceProtected" ism:releasableTo="releasableTo" ism:nonICmarkings="nonIcMarkings" ism:classifiedBy="classifiedBy" ism:derivativelyClassifiedBy="derivativelyClassifiedBy" ism:classificationReason="classificationReason" ism:derivedFrom="derivedFrom" ism:declassDate="2017-11-02" ism:declassEvent="declassEvent" ism:declassException="declassException" ism:typeOfExemptedSource="typeOfExemptedSource" ism:dateOfExemptedSource="2017-11-02" ism:declassManualReview="true">
+        <ddms:Person>
+            <ddms:name>John</ddms:name>
+            <ddms:surname>Smith</ddms:surname>
+            <ddms:userID>userId</ddms:userID>
+            <ddms:affiliation>Employee</ddms:affiliation>
+            <ddms:phone>555-555-5555</ddms:phone>
+            <ddms:email>john.smith@codice.org</ddms:email>
+        </ddms:Person>
+    </ddms:creator>
+    <ddms:publisher ism:classification="U" ism:ownerProducer="ownerProducer" ism:SCIcontrols="sciControl" ism:SARIdentifier="sarIdentifier" ism:disseminationControls="disseminationControl" ism:FGIsourceOpen="fgiSourceOpen" ism:FGIsourceProtected="fgiSourceProtected" ism:releasableTo="releasableTo" ism:nonICmarkings="nonIcMarkings" ism:classifiedBy="classifiedBy" ism:derivativelyClassifiedBy="derivativelyClassifiedBy" ism:classificationReason="classificationReason" ism:derivedFrom="derivedFrom" ism:declassDate="2017-11-02" ism:declassEvent="declassEvent" ism:declassException="declassException" ism:typeOfExemptedSource="typeOfExemptedSource" ism:dateOfExemptedSource="2017-11-02" ism:declassManualReview="true">
+        <ddms:Organization>
+            <ddms:name>Codice</ddms:name>
+            <ddms:phone>555-555-5555</ddms:phone>
+            <ddms:email>info@codice.org</ddms:email>
+        </ddms:Organization>
+    </ddms:publisher>
+    <ddms:contributor ism:classification="U" ism:ownerProducer="ownerProducer" ism:SCIcontrols="sciControl" ism:SARIdentifier="sarIdentifier" ism:disseminationControls="disseminationControl" ism:FGIsourceOpen="fgiSourceOpen" ism:FGIsourceProtected="fgiSourceProtected" ism:releasableTo="releasableTo" ism:nonICmarkings="nonIcMarkings" ism:classifiedBy="classifiedBy" ism:derivativelyClassifiedBy="derivativelyClassifiedBy" ism:classificationReason="classificationReason" ism:derivedFrom="derivedFrom" ism:declassDate="2017-11-02" ism:declassEvent="declassEvent" ism:declassException="declassException" ism:typeOfExemptedSource="typeOfExemptedSource" ism:dateOfExemptedSource="2017-11-02" ism:declassManualReview="true">
+        <ddms:Service>
+            <ddms:name>Development</ddms:name>
+            <ddms:phone>555-555-5555</ddms:phone>
+            <ddms:email>dev@codice.org</ddms:email>
+        </ddms:Service>
+    </ddms:contributor>
+    <ddms:pointOfContact ism:classification="U" ism:ownerProducer="ownerProducer" ism:SCIcontrols="sciControl" ism:SARIdentifier="sarIdentifier" ism:disseminationControls="disseminationControl" ism:FGIsourceOpen="fgiSourceOpen" ism:FGIsourceProtected="fgiSourceProtected" ism:releasableTo="releasableTo" ism:nonICmarkings="nonIcMarkings" ism:classifiedBy="classifiedBy" ism:derivativelyClassifiedBy="derivativelyClassifiedBy" ism:classificationReason="classificationReason" ism:derivedFrom="derivedFrom" ism:declassDate="2017-11-02" ism:declassEvent="declassEvent" ism:declassException="declassException" ism:typeOfExemptedSource="typeOfExemptedSource" ism:dateOfExemptedSource="2017-11-02" ism:declassManualReview="true">
+        <ddms:Person>
+            <ddms:name>John</ddms:name>
+            <ddms:surname>Smith</ddms:surname>
+            <ddms:userID>userId</ddms:userID>
+            <ddms:affiliation>Employee</ddms:affiliation>
+            <ddms:phone>555-555-5555</ddms:phone>
+            <ddms:email>john.smith@codice.org</ddms:email>
+        </ddms:Person>
+    </ddms:pointOfContact>
+    <ddms:format>
+        <ddms:Media>
+            <ddms:mimeType>application/xml</ddms:mimeType>
+            <ddms:extent ddms:qualifier="qualifier" ddms:value="value"/>
+            <ddms:medium>digital</ddms:medium>
+        </ddms:Media>
+    </ddms:format>
+    <ddms:subjectCoverage>
+        <ddms:Subject>
+            <ddms:category ddms:label="test" ddms:qualifier="org:codice:ddms" ddms:code="code"/>
+            <ddms:keyword ddms:value="testing"/>
+        </ddms:Subject>
+    </ddms:subjectCoverage>
+    <ddms:virtualCoverage ddms:protocol="protocol" ddms:address="address"/>
+    <ddms:temporalCoverage>
+        <ddms:TimePeriod>
+            <ddms:name>Current Time</ddms:name>
+            <ddms:start>2017-11-02T10:55:24.225-07:00</ddms:start>
+            <ddms:end>2017-11-02T10:55:24.225-07:00</ddms:end>
+        </ddms:TimePeriod>
+    </ddms:temporalCoverage>
+    <ddms:geospatialCoverage>
+        <ddms:GeospatialExtent>
+            <ddms:geographicIdentifier>
+                <ddms:name>name</ddms:name>
+                <ddms:region>region</ddms:region>
+                <ddms:countryCode ddms:qualifier="qualifier" ddms:value="value"/>
+                <ddms:facilityIdentifier ddms:beNumber="beNumber" ddms:osuffix="osuffix"/>
+            </ddms:geographicIdentifier>
+            <ddms:boundingBox>
+                <ddms:WestBL>1.0</ddms:WestBL>
+                <ddms:EastBL>2.0</ddms:EastBL>
+                <ddms:SouthBL>3.0</ddms:SouthBL>
+                <ddms:NorthBL>4.0</ddms:NorthBL>
+            </ddms:boundingBox>
+            <ddms:boundingGeometry>
+                <gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="srsName" srsDimension="2" axisLabels="axisLabels" uomLabels="uomLabels" gml:id="polygon">
+                    <gml:exterior>
+                        <gml:LinearRing>
+                            <gml:pos srsName="srsName" srsDimension="2" axisLabels="axisLabels" uomLabels="uomLabels">0.0 0.0</gml:pos>
+                            <gml:pos srsName="srsName" srsDimension="2" axisLabels="axisLabels" uomLabels="uomLabels">0.0 0.0</gml:pos>
+                            <gml:pos srsName="srsName" srsDimension="2" axisLabels="axisLabels" uomLabels="uomLabels">0.0 0.0</gml:pos>
+                            <gml:pos srsName="srsName" srsDimension="2" axisLabels="axisLabels" uomLabels="uomLabels">0.0 0.0</gml:pos>
+                        </gml:LinearRing>
+                    </gml:exterior>
+                </gml:Polygon>
+                <gml:Point xmlns:gml="http://www.opengis.net/gml" srsName="srsName" srsDimension="2" axisLabels="axisLabels" uomLabels="uomLabels" gml:id="point">
+                    <gml:pos srsName="srsName" srsDimension="2" axisLabels="axisLabels" uomLabels="uomLabels">0.0 0.0</gml:pos>
+                </gml:Point>
+            </ddms:boundingGeometry>
+            <ddms:postalAddress>
+                <ddms:street>street</ddms:street>
+                <ddms:city>city</ddms:city>
+                <ddms:state>state</ddms:state>
+                <ddms:postalCode>postalCode</ddms:postalCode>
+                <ddms:countryCode ddms:qualifier="qualifier" ddms:value="value"/>
+            </ddms:postalAddress>
+            <ddms:postalAddress>
+                <ddms:street>street</ddms:street>
+                <ddms:city>city</ddms:city>
+                <ddms:province>province</ddms:province>
+                <ddms:postalCode>postalCode</ddms:postalCode>
+                <ddms:countryCode ddms:qualifier="qualifier" ddms:value="value"/>
+            </ddms:postalAddress>
+            <ddms:verticalExtent ddms:unitOfMeasure="Foot" ddms:datum="MSL">
+                <ddms:MinVerticalExtent ddms:unitOfMeasure="Foot" ddms:datum="MSL">0.0</ddms:MinVerticalExtent>
+                <ddms:MaxVerticalExtent ddms:unitOfMeasure="Foot" ddms:datum="MSL">10.0</ddms:MaxVerticalExtent>
+            </ddms:verticalExtent>
+        </ddms:GeospatialExtent>
+    </ddms:geospatialCoverage>
+    <ddms:relatedResources ism:classification="U" ism:ownerProducer="ownerProducer" ism:SCIcontrols="sciControl" ism:SARIdentifier="sarIdentifier" ism:disseminationControls="disseminationControl" ism:FGIsourceOpen="fgiSourceOpen" ism:FGIsourceProtected="fgiSourceProtected" ism:releasableTo="releasableTo" ism:nonICmarkings="nonIcMarkings" ism:classifiedBy="classifiedBy" ism:derivativelyClassifiedBy="derivativelyClassifiedBy" ism:classificationReason="classificationReason" ism:derivedFrom="derivedFrom" ism:declassDate="2017-11-02" ism:declassEvent="declassEvent" ism:declassException="declassException" ism:typeOfExemptedSource="typeOfExemptedSource" ism:dateOfExemptedSource="2017-11-02" ism:declassManualReview="true" ddms:relationship="relationship" ddms:direction="outbound">
+        <ddms:RelatedResource ddms:qualifier="qualifier" ddms:value="value">
+            <ddms:link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="href" xlink:type="locator" xlink:role="role" xlink:title="title" xlink:label="label"/>
+        </ddms:RelatedResource>
+    </ddms:relatedResources>
+    <ddms:security ism:classification="U" ism:ownerProducer="ownerProducer" ism:SCIcontrols="sciControl" ism:SARIdentifier="sarIdentifier" ism:disseminationControls="disseminationControl" ism:FGIsourceOpen="fgiSourceOpen" ism:FGIsourceProtected="fgiSourceProtected" ism:releasableTo="releasableTo" ism:nonICmarkings="nonIcMarkings" ism:classifiedBy="classifiedBy" ism:derivativelyClassifiedBy="derivativelyClassifiedBy" ism:classificationReason="classificationReason" ism:derivedFrom="derivedFrom" ism:declassDate="2017-11-02" ism:declassEvent="declassEvent" ism:declassException="declassException" ism:typeOfExemptedSource="typeOfExemptedSource" ism:dateOfExemptedSource="2017-11-02" ism:declassManualReview="true"/>
+</ddms:Resource>
