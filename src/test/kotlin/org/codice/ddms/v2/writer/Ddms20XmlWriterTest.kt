@@ -297,7 +297,7 @@ class Ddms20XmlWriterTest {
                     countryCode("qualifier", "value")
                     facilityIdentifier("beNumber", "osuffix")
                 }
-                boundingBox(4.0, 3.0, 2.0, 1.0)
+                boundingBox(1.0, 2.0, 3.0, 4.0)
                 boundingGeometry {
                     polygon {
                         srsAttributes(srsAttributes)
