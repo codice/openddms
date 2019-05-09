@@ -56,8 +56,8 @@ class GeospatialCoverageBuilder : Builder<GeospatialCoverage> {
         return this
     }
 
-    fun boundingBox(north: Double, south: Double, east: Double, west: Double) =
-            boundingBoxes(BoundingBox(north, south, east, west))
+    fun boundingBox(west: Double, east: Double, south: Double, north: Double) =
+            boundingBoxes(BoundingBox(west, east, south, north))
 
     fun boundingGeometries(vararg boundingGeometry: BoundingGeometry): GeospatialCoverageBuilder {
         boundingGeometries.addAll(boundingGeometry)

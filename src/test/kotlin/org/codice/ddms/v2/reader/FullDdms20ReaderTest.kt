@@ -224,7 +224,7 @@ class FullDdms20ReaderTest {
                         countryCode("qualifier", "value")
                         facilityIdentifier("beNumber", "osuffix")
                     }
-                    boundingBox(1.0, 2.0, 4.0, 3.0)
+                    boundingBox(1.0, 2.0, 3.0, 4.0)
                     boundingGeometry {
                         polygon {
                             srsAttributes {
