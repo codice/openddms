@@ -10,14 +10,14 @@ package org.codice.ddms.v2.summary.geospatial
  *
  * There are no checks to make sure the bounds are valid.
  *
- * @param north The northernmost latitude of the area of interest.
- * @param south The southernmost latitude of the area of interest.
- * @param east The easternmost longitude of the area of interest.
- * @param west The westernmost longitude of the area of interest.
+ * @param west The westernmost latitude of the area of interest.
+ * @param east The easternmost latitude of the area of interest.
+ * @param south The southernmost longitude of the area of interest.
+ * @param north The northernmost longitude of the area of interest.
  */
 data class BoundingBox(
-    val north: Double,
-    val south: Double,
+    val west: Double,
     val east: Double,
-    val west: Double
+    val south: Double,
+    val north: Double
 )

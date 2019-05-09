@@ -404,7 +404,7 @@ class Ddms20XmlReader(private val reader: XMLStreamReader) : DdmsReader, XMLStre
         val south = elementText.toDouble()
         nextTag("NorthBL")
         val north = elementText.toDouble()
-        boundingBox(west, east, north, south)
+        boundingBox(west, east, south, north)
     }
 
     private fun GeospatialCoverageBuilder.parseBoundingGeometry() {
