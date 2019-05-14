@@ -7,17 +7,22 @@ package org.codice.ddms
 
 import java.lang.IllegalArgumentException
 import java.time.DateTimeException
+import java.time.temporal.TemporalAccessor
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
-import java.time.temporal.TemporalAccessor
 
 private val datetimeFormatter = DateTimeFormatterBuilder()
         .appendOptional(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         .appendOptional(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        .appendOptional(DateTimeFormatter.ISO_OFFSET_DATE)
         .appendOptional(DateTimeFormatter.ISO_LOCAL_DATE)
-        .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM"))
-        .appendOptional(DateTimeFormatter.ofPattern("yyyy"))
+        .appendOptional(DateTimeFormatter.ISO_INSTANT)
+        .appendOptional(DateTimeFormatter.ofPattern("yyyy[XXX]"))
+        .toFormatter()
+
+private val yearMonthFormatter = DateTimeFormatterBuilder()
+        .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM[XXX]"))
         .toFormatter()
 
 private const val UNKNOWN = "Unknown"
@@ -64,7 +69,12 @@ class DdmsDate {
                 datetimeFormatter.parse(date)
                 true
             } catch (ignore: DateTimeParseException) {
-                false
+                return try {
+                    yearMonthFormatter.parse(date)
+                    true
+                } catch(ignore: DateTimeParseException) {
+                    false
+                }
             }
         }
 
@@ -78,7 +88,12 @@ class DdmsDate {
                 datetimeFormatter.format(date)
                 true
             } catch (ignore: DateTimeException) {
-                false
+                return try {
+                    yearMonthFormatter.format(date)
+                    true
+                } catch(ignore: DateTimeParseException) {
+                    false
+                }
             }
         }
     }

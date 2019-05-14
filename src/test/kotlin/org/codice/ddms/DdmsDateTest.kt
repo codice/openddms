@@ -5,15 +5,16 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms
 
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.equalTo
-import org.hamcrest.MatcherAssert.assertThat
-import org.junit.Test
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.Year
 import java.time.YearMonth
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Test
 
 class DdmsDateTest {
     @Test
@@ -41,6 +42,24 @@ class DdmsDateTest {
     }
 
     @Test
+    fun `Date with Z offset is valid`() {
+        val date = "2007-04-03Z"
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
+    fun `Date with positive offset is valid`() {
+        val date = "2007-04-03+03:00"
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
+    fun `Date with negative offset is valid`() {
+        val date = "2007-04-03-03:00"
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
     fun `LocalDate is valid`() {
         val date = LocalDate.now()
         assertThat(DdmsDate.isValid(date), `is`(true))
@@ -50,6 +69,42 @@ class DdmsDateTest {
     fun `LocalDate string is valid`() {
         val date = LocalDate.now().toString()
         assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
+    fun `Instant is valid`() {
+        val date = Instant.now()
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
+    fun `Instant string is valid`() {
+        val date = "2013-07-06T10:59:25.090-04:00"
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
+    fun `Year month with Z offset is valid`() {
+        val date = "2003-04Z"
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
+    fun `Year month with positive offset is valid`() {
+        val date = "2007-04+03:00"
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
+    fun `Year month with negative offset is valid`() {
+        val date = "2007-04-03:00"
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
+    fun `Year month with offset no colon is not valid`() {
+        val date = "2007-04+0300"
+        assertThat(DdmsDate.isValid(date), `is`(false))
     }
 
     @Test
@@ -63,6 +118,25 @@ class DdmsDateTest {
         val date = YearMonth.now().toString()
         assertThat(DdmsDate.isValid(date), `is`(true))
     }
+
+    @Test
+    fun `Year with Z offset is valid`() {
+        val date = "2007Z"
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
+    fun `Year with negative offset is valid`() {
+        val date = "2007-03:00"
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
+    @Test
+    fun `Year with positive offset is valid`() {
+        val date = "2007+03:00"
+        assertThat(DdmsDate.isValid(date), `is`(true))
+    }
+
 
     @Test
     fun `Year is valid`() {
