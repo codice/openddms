@@ -31,12 +31,12 @@ private const val NOT_APPLICABLE = "Not Applicable"
 /**
  * Wrapper class for validating dates.
  *
- * DDMS only allows for the following date-time formats:
+ * DDMS allows for the following date-time formats, where TZD (time zone designation) is optional:
  * - `yyyy-MM-dd'T'hh:mm:ss.sTZD`
- * - `yyyy-MM-dd'T'hh:mm:ss`
- * - `yyyy-MM-dd`
- * - `yyyy-MM`
- * - `yyyy`
+ * - `yyyy-MM-dd'T'hh:mm:ssTZD`
+ * - `yyyy-MM-ddTZD`
+ * - `yyyy-MMTZD`
+ * - `yyyyTZD`
  * - `Unknown`
  * - `Not Applicable`
  *
