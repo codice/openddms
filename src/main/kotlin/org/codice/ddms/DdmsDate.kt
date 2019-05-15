@@ -5,7 +5,6 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms
 
-import java.lang.IllegalArgumentException
 import java.time.DateTimeException
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
@@ -13,9 +12,13 @@ import java.time.format.DateTimeParseException
 import java.time.temporal.TemporalAccessor
 
 private val datetimeFormatter = DateTimeFormatterBuilder()
+        .appendOptional(DateTimeFormatter.ISO_INSTANT)
         .appendOptional(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         .appendOptional(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        .appendOptional(DateTimeFormatter.ISO_OFFSET_DATE)
+        .appendOptional(DateTimeFormatter.ofPattern("yyyy-MMXXX"))
         .appendOptional(DateTimeFormatter.ISO_LOCAL_DATE)
+        .appendOptional(DateTimeFormatter.ofPattern("yyyyXXX"))
         .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM"))
         .appendOptional(DateTimeFormatter.ofPattern("yyyy"))
         .toFormatter()
@@ -26,12 +29,12 @@ private const val NOT_APPLICABLE = "Not Applicable"
 /**
  * Wrapper class for validating dates.
  *
- * DDMS only allows for the following date-time formats:
+ * DDMS allows for the following date-time formats, where TZD (time zone designation) is optional:
  * - `yyyy-MM-dd'T'hh:mm:ss.sTZD`
- * - `yyyy-MM-dd'T'hh:mm:ss`
- * - `yyyy-MM-dd`
- * - `yyyy-MM`
- * - `yyyy`
+ * - `yyyy-MM-dd'T'hh:mm:ssTZD`
+ * - `yyyy-MM-ddTZD`
+ * - `yyyy-MMTZD`
+ * - `yyyyTZD`
  * - `Unknown`
  * - `Not Applicable`
  *
@@ -131,8 +134,9 @@ class DdmsDate {
      * @return The [TemporalAccessor] of the date.
      * @throws IllegalStateException when [parsedDate] is [DdmsDate.unknown] or [DdmsDate.notApplicable].
      */
-    fun toRawTemporalAccessor(): TemporalAccessor = parsedDate ?: throw IllegalStateException("DdmsDate is either " +
-            "Unknown or Not Applicable. Can't be converted to TemporalAccessor.")
+    fun toRawTemporalAccessor(): TemporalAccessor = parsedDate
+            ?: throw IllegalStateException("DdmsDate is either " +
+                    "Unknown or Not Applicable. Can't be converted to TemporalAccessor.")
 
     /**
      * Outputs the date in a human-readable format.
