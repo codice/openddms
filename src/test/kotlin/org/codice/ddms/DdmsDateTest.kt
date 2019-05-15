@@ -137,7 +137,6 @@ class DdmsDateTest {
         assertThat(DdmsDate.isValid(date), `is`(true))
     }
 
-
     @Test
     fun `Year is valid`() {
         val date = Year.now()

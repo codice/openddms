@@ -5,24 +5,22 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms
 
-import java.lang.IllegalArgumentException
 import java.time.DateTimeException
-import java.time.temporal.TemporalAccessor
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
+import java.time.temporal.TemporalAccessor
 
 private val datetimeFormatter = DateTimeFormatterBuilder()
+        .appendOptional(DateTimeFormatter.ISO_INSTANT)
         .appendOptional(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         .appendOptional(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         .appendOptional(DateTimeFormatter.ISO_OFFSET_DATE)
+        .appendOptional(DateTimeFormatter.ofPattern("yyyy-MMXXX"))
         .appendOptional(DateTimeFormatter.ISO_LOCAL_DATE)
-        .appendOptional(DateTimeFormatter.ISO_INSTANT)
-        .appendOptional(DateTimeFormatter.ofPattern("yyyy[XXX]"))
-        .toFormatter()
-
-private val yearMonthFormatter = DateTimeFormatterBuilder()
-        .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM[XXX]"))
+        .appendOptional(DateTimeFormatter.ofPattern("yyyyXXX"))
+        .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM"))
+        .appendOptional(DateTimeFormatter.ofPattern("yyyy"))
         .toFormatter()
 
 private const val UNKNOWN = "Unknown"
@@ -69,12 +67,7 @@ class DdmsDate {
                 datetimeFormatter.parse(date)
                 true
             } catch (ignore: DateTimeParseException) {
-                return try {
-                    yearMonthFormatter.parse(date)
-                    true
-                } catch(ignore: DateTimeParseException) {
-                    false
-                }
+                false
             }
         }
 
@@ -88,12 +81,7 @@ class DdmsDate {
                 datetimeFormatter.format(date)
                 true
             } catch (ignore: DateTimeException) {
-                return try {
-                    yearMonthFormatter.format(date)
-                    true
-                } catch(ignore: DateTimeParseException) {
-                    false
-                }
+                false
             }
         }
     }
@@ -146,8 +134,9 @@ class DdmsDate {
      * @return The [TemporalAccessor] of the date.
      * @throws IllegalStateException when [parsedDate] is [DdmsDate.unknown] or [DdmsDate.notApplicable].
      */
-    fun toRawTemporalAccessor(): TemporalAccessor = parsedDate ?: throw IllegalStateException("DdmsDate is either " +
-            "Unknown or Not Applicable. Can't be converted to TemporalAccessor.")
+    fun toRawTemporalAccessor(): TemporalAccessor = parsedDate
+            ?: throw IllegalStateException("DdmsDate is either " +
+                    "Unknown or Not Applicable. Can't be converted to TemporalAccessor.")
 
     /**
      * Outputs the date in a human-readable format.
