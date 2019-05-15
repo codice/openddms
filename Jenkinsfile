@@ -9,7 +9,7 @@ pipeline {
         }
     }
     tools {
-        jdk 'jdk11'
+        jdk 'jdk8-latest'
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '15'))
