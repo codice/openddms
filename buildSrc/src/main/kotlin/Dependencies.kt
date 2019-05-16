@@ -5,7 +5,7 @@ http://www.gnu.org/licenses/lgpl.html
 */
 // Default package
 object Versions {
-    const val project = "1.0-SNAPSHOT"
+    const val project = "1.1"
 
     const val javaTarget = "1.8"
     const val dokkaJvmVersion = 8
