@@ -55,7 +55,7 @@ This section will briefly talk about the project structure.
 The project uses [Spotless](https://github.com/diffplug/spotless) to ensure consistent style. Any style violations noted by Spotless can easily be resolved by running `./gradlew spotlessApply`.
 
 #### Releasing
-Ensure that your gradle.properties contains username / password with credentials to push to the Codice Foundation repository.  To release the project execute `gradlew publish`.
+Ensure that your gradle.properties contains username / password with credentials to push to the Codice Foundation repository.  To release the project execute `./gradlew publish`.
 
 ## Copyright / License
 Copyright (c) Codice Foundation
