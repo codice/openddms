@@ -84,8 +84,12 @@ val sourcesJar by tasks.registering(Jar::class) {
 
 publishing {
     repositories {
+
+        var urlString = "http://artifacts.codice.org/content/repositories/releases/"
+        if (Versions.project.endsWith("SNAPSHOT")) urlString = "http://artifacts.codice.org/content/repositories/snapshots/"
+
         maven {
-            url = uri("http://artifacts.codice.org/content/repositories/snapshots/")
+            url = uri(urlString)
             credentials {
                 username = project.findProperty("username") as? String
                 password = project.findProperty("password") as? String
