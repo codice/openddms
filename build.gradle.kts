@@ -12,6 +12,7 @@ plugins {
     id("org.jetbrains.dokka") version Versions.dokka
     id("com.diffplug.gradle.spotless") version Versions.spotless
     id("io.gitlab.arturbosch.detekt") version Versions.detekt
+    `maven-publish`
 }
 
 group = "org.codice.ddms"
@@ -74,4 +75,28 @@ tasks.withType<DokkaTask> {
     outputFormat = "html"
     outputDirectory = "$buildDir/dokka"
     jdkVersion = Versions.dokkaJvmVersion
+}
+
+val sourcesJar by tasks.registering(Jar::class) {
+    classifier = "sources"
+    from(sourceSets.main.get().allSource)
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri("http://artifacts.codice.org/content/repositories/snapshots/")
+            credentials {
+                username = project.findProperty("username") as? String
+                password = project.findProperty("password") as? String
+            }
+        }
+    }
+
+    publications {
+        register("mavenJava", MavenPublication::class) {
+            from(components["java"])
+            artifact(sourcesJar.get())
+        }
+    }
 }
