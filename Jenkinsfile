@@ -17,7 +17,7 @@ pipeline {
         timestamps()
     }
     triggers {
-        cron(env.BRANCH_NAME == "master" ? "H H(21-23) * * *" : "")
+        pollSCM(env.BRANCH_NAME == "master" ? "H H(21-23) * * *" : "")
     }
     environment {
         GITHUB_USERNAME = 'codice'
