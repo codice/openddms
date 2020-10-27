@@ -68,7 +68,11 @@ spotless {
 detekt {
     input = files("src/main/kotlin", "buildSrc/src/main/kotlin")
     config = files("detekt.yml")
-    filters = ".*/resources/.*,.*/build/.*"
+}
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    exclude("**/resources/**")
+    exclude("**/build/**")
 }
 
 tasks.withType<DokkaTask> {
