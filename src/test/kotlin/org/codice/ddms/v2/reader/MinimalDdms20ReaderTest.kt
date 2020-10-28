@@ -5,6 +5,7 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.reader
 
+import javax.xml.stream.XMLInputFactory
 import org.codice.ddms.DdmsResource
 import org.codice.ddms.v2.builder.resource.ContactBuilder.Companion.contact
 import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder.Companion.securityAttributes
@@ -17,7 +18,6 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
-import javax.xml.stream.XMLInputFactory
 
 class MinimalDdms20ReaderTest {
     private val ddms20: DdmsResource

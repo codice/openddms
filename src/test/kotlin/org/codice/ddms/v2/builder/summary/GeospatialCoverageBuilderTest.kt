@@ -5,6 +5,9 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.builder.summary
 
+import org.codice.ddms.gml.v3.Point
+import org.codice.ddms.gml.v3.Position
+import org.codice.ddms.gml.v3.SrsAttributes
 import org.codice.ddms.v2.summary.GeospatialCoverage
 import org.codice.ddms.v2.summary.geospatial.BoundingBox
 import org.codice.ddms.v2.summary.geospatial.BoundingGeometry
@@ -14,9 +17,6 @@ import org.codice.ddms.v2.summary.geospatial.PostalAddress
 import org.codice.ddms.v2.summary.geospatial.UnitOfMeasure
 import org.codice.ddms.v2.summary.geospatial.VerticalDistance
 import org.codice.ddms.v2.summary.geospatial.VerticalExtent
-import org.codice.ddms.gml.v3.Point
-import org.codice.ddms.gml.v3.Position
-import org.codice.ddms.gml.v3.SrsAttributes
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test

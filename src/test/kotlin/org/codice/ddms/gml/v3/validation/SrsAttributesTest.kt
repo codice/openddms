@@ -5,11 +5,11 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.gml.v3.validation
 
+import java.lang.IllegalArgumentException
 import org.codice.ddms.gml.v3.SrsAttributes
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
-import java.lang.IllegalArgumentException
 
 class SrsAttributesTest {
     @Test

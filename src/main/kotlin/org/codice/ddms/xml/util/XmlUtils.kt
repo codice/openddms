@@ -5,8 +5,8 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.xml.util
 
-import org.codice.ddms.xml.util.XmlConstants.xlinkNamespace
 import javax.xml.stream.XMLStreamWriter
+import org.codice.ddms.xml.util.XmlConstants.xlinkNamespace
 
 /**
  * Extension function for making namespaces easier to write.

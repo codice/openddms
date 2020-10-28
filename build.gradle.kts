@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version Versions.kotlin
     id("org.jetbrains.dokka") version Versions.dokka
-    id("com.diffplug.gradle.spotless") version Versions.spotless
+    id("com.diffplug.spotless") version Versions.spotless
     id("io.gitlab.arturbosch.detekt") version Versions.detekt
     `maven-publish`
 }

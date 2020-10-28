@@ -5,11 +5,11 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.builder.summary
 
+import java.lang.IllegalStateException
 import org.codice.ddms.v2.summary.Link
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
-import java.lang.IllegalStateException
 
 class LinkBuilderTest {
     private val link = Link("http://example.com", "role", "title", "label")

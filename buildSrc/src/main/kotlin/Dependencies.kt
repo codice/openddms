@@ -13,7 +13,7 @@ object Versions {
 
     const val kotlin = "1.3.72"
     const val dokka = "0.9.17"
-    const val spotless = "3.17.0"
+    const val spotless = "5.7.0"
     const val detekt = "1.14.2"
     const val slf4j = "1.7.25"
     const val mockito = "2.24.0"

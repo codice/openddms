@@ -5,6 +5,7 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.builder
 
+import java.time.temporal.TemporalAccessor
 import org.codice.ddms.Builder
 import org.codice.ddms.DdmsDate
 import org.codice.ddms.v2.Ddms20Resource
@@ -31,7 +32,6 @@ import org.codice.ddms.v2.summary.RelatedResources
 import org.codice.ddms.v2.summary.SubjectCoverage
 import org.codice.ddms.v2.summary.TemporalCoverage
 import org.codice.ddms.v2.summary.VirtualCoverage
-import java.time.temporal.TemporalAccessor
 
 // Builders are pretty complex objects, any break up would be artificial and not useful
 @Suppress("LargeClass", "TooManyFunctions")
@@ -156,7 +156,7 @@ class Ddms20ResourceBuilder : Builder<Ddms20Resource> {
     ) =
             dates(Dates(if (created != null) DdmsDate(created) else null,
                     if (posted != null) DdmsDate(posted) else null,
-                    if (validTil != null) DdmsDate( validTil) else null,
+                    if (validTil != null) DdmsDate(validTil) else null,
                     if (infoCutOff != null) DdmsDate(infoCutOff) else null))
 
     fun rights(rights: Rights): Ddms20ResourceBuilder {

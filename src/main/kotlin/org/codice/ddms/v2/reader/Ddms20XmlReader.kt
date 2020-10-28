@@ -5,6 +5,8 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.reader
 
+import javax.xml.stream.XMLStreamConstants
+import javax.xml.stream.XMLStreamReader
 import org.codice.ddms.DdmsDate
 import org.codice.ddms.DdmsReader
 import org.codice.ddms.DdmsResource
@@ -29,8 +31,6 @@ import org.codice.ddms.v2.summary.geospatial.UnitOfMeasure
 import org.codice.ddms.v2.summary.geospatial.VerticalDistance
 import org.codice.ddms.xml.util.XmlConstants
 import org.slf4j.LoggerFactory
-import javax.xml.stream.XMLStreamConstants
-import javax.xml.stream.XMLStreamReader
 
 private const val DDMS_20_NAMESPACE = "http://metadata.dod.mil/mdr/ns/DDMS/2.0/"
 
