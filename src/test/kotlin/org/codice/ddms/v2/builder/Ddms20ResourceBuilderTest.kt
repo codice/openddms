@@ -5,6 +5,7 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.builder
 
+import java.time.OffsetDateTime
 import org.codice.ddms.DdmsDate
 import org.codice.ddms.v2.Ddms20Resource
 import org.codice.ddms.v2.format.Extent
@@ -31,7 +32,6 @@ import org.codice.ddms.v2.summary.geospatial.BoundingBox
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
-import java.time.OffsetDateTime
 
 class Ddms20ResourceBuilderTest {
     private val date = DdmsDate(OffsetDateTime.now().toString())

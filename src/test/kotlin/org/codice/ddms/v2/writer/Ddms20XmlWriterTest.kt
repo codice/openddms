@@ -6,6 +6,9 @@ http://www.gnu.org/licenses/lgpl.html
 package org.codice.ddms.v2.writer
 
 import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter
+import java.io.ByteArrayOutputStream
+import java.nio.charset.StandardCharsets
+import javax.xml.stream.XMLOutputFactory
 import org.codice.ddms.DdmsDate
 import org.codice.ddms.gml.v3.SrsAttributes
 import org.codice.ddms.gml.v3.builder.LinearRingBuilder
@@ -14,22 +17,22 @@ import org.codice.ddms.gml.v3.builder.PolygonBuilder
 import org.codice.ddms.gml.v3.builder.PositionBuilder
 import org.codice.ddms.gml.v3.builder.SrsAttributesBuilder.Companion.srsAttributes
 import org.codice.ddms.v2.Ddms20Resource
-import org.codice.ddms.v2.builder.resource.ContactBuilder
 import org.codice.ddms.v2.builder.Ddms20ResourceBuilder
+import org.codice.ddms.v2.builder.Ddms20ResourceBuilder.Companion.ddms20
+import org.codice.ddms.v2.builder.resource.ContactBuilder
+import org.codice.ddms.v2.builder.resource.producers.OrganizationBuilder
+import org.codice.ddms.v2.builder.resource.producers.PersonBuilder
+import org.codice.ddms.v2.builder.resource.producers.ServiceBuilder
+import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder
+import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder.Companion.securityAttributes
 import org.codice.ddms.v2.builder.summary.GeospatialCoverageBuilder
 import org.codice.ddms.v2.builder.summary.RelatedResourceBuilder
 import org.codice.ddms.v2.builder.summary.RelatedResourcesBuilder
-import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder
 import org.codice.ddms.v2.builder.summary.SubjectCoverageBuilder
-import org.codice.ddms.v2.builder.Ddms20ResourceBuilder.Companion.ddms20
 import org.codice.ddms.v2.builder.summary.geospatial.BoundingGeometryBuilder
 import org.codice.ddms.v2.builder.summary.geospatial.GeographicIdentifierBuilder
 import org.codice.ddms.v2.builder.summary.geospatial.PostalAddressBuilder
 import org.codice.ddms.v2.builder.summary.geospatial.VerticalExtentBuilder
-import org.codice.ddms.v2.builder.resource.producers.OrganizationBuilder
-import org.codice.ddms.v2.builder.resource.producers.PersonBuilder
-import org.codice.ddms.v2.builder.resource.producers.ServiceBuilder
-import org.codice.ddms.v2.builder.security.SecurityAttributeBuilder.Companion.securityAttributes
 import org.codice.ddms.v2.format.Extent
 import org.codice.ddms.v2.resource.Dates
 import org.codice.ddms.v2.resource.Title
@@ -44,15 +47,12 @@ import org.codice.ddms.v2.summary.geospatial.UnitOfMeasure
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
-import java.io.ByteArrayOutputStream
-import java.nio.charset.StandardCharsets
-import javax.xml.stream.XMLOutputFactory
 
 class Ddms20XmlWriterTest {
     private val xmlFactory = XMLOutputFactory.newFactory()
     private val ddms20Snapshot = javaClass.getResourceAsStream("/snapshots/DDMS_20_Full_Snapshot.xml")
             .bufferedReader().use { it.readText() }
-            .replace("\r\n", "\n") //temporary fix for Windows
+            .replace("\r\n", "\n") // temporary fix for Windows
 
     @Test
     fun `all elements and attributes using builders`() {

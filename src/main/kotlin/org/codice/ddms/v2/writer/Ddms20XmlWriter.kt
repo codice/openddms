@@ -5,6 +5,7 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.writer
 
+import javax.xml.stream.XMLStreamWriter
 import org.codice.ddms.DdmsResource
 import org.codice.ddms.DdmsWriter
 import org.codice.ddms.gml.v3.Point
@@ -43,7 +44,6 @@ import org.codice.ddms.xml.util.element
 import org.codice.ddms.xml.util.emptyElement
 import org.codice.ddms.xml.util.namespace
 import org.codice.ddms.xml.util.xlinkAttribute
-import javax.xml.stream.XMLStreamWriter
 
 private const val DDMS_PREFIX = "ddms"
 private const val DDMS_20_NAMESPACE = "http://metadata.dod.mil/mdr/ns/DDMS/2.0/"

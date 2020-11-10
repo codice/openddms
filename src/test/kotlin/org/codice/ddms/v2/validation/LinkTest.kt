@@ -5,9 +5,9 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.validation
 
+import java.lang.IllegalArgumentException
 import org.codice.ddms.v2.summary.Link
 import org.junit.Test
-import java.lang.IllegalArgumentException
 
 class LinkTest {
     @Test(expected = IllegalArgumentException::class)

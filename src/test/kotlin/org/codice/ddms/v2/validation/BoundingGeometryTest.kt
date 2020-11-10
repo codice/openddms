@@ -5,12 +5,12 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.validation
 
-import org.codice.ddms.v2.summary.geospatial.BoundingGeometry
 import org.codice.ddms.gml.v3.LinearRing
 import org.codice.ddms.gml.v3.Point
 import org.codice.ddms.gml.v3.Polygon
 import org.codice.ddms.gml.v3.Position
 import org.codice.ddms.gml.v3.SrsAttributes
+import org.codice.ddms.v2.summary.geospatial.BoundingGeometry
 import org.junit.Test
 
 class BoundingGeometryTest {

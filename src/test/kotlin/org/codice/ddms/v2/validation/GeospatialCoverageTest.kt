@@ -5,6 +5,10 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.validation
 
+import org.codice.ddms.gml.v3.LinearRing
+import org.codice.ddms.gml.v3.Polygon
+import org.codice.ddms.gml.v3.Position
+import org.codice.ddms.gml.v3.SrsAttributes
 import org.codice.ddms.v2.summary.GeospatialCoverage
 import org.codice.ddms.v2.summary.geospatial.BoundingBox
 import org.codice.ddms.v2.summary.geospatial.BoundingGeometry
@@ -14,10 +18,6 @@ import org.codice.ddms.v2.summary.geospatial.PostalAddress
 import org.codice.ddms.v2.summary.geospatial.UnitOfMeasure
 import org.codice.ddms.v2.summary.geospatial.VerticalDistance
 import org.codice.ddms.v2.summary.geospatial.VerticalExtent
-import org.codice.ddms.gml.v3.LinearRing
-import org.codice.ddms.gml.v3.Polygon
-import org.codice.ddms.gml.v3.Position
-import org.codice.ddms.gml.v3.SrsAttributes
 import org.junit.Test
 
 class GeospatialCoverageTest {

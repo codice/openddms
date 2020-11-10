@@ -6,11 +6,11 @@ http://www.gnu.org/licenses/lgpl.html
 package org.codice.ddms.v2.builder.summary.geospatial
 
 import org.codice.ddms.Builder
-import org.codice.ddms.v2.summary.geospatial.BoundingGeometry
 import org.codice.ddms.gml.v3.Point
 import org.codice.ddms.gml.v3.Polygon
 import org.codice.ddms.gml.v3.builder.PointBuilder
 import org.codice.ddms.gml.v3.builder.PolygonBuilder
+import org.codice.ddms.v2.summary.geospatial.BoundingGeometry
 
 class BoundingGeometryBuilder : Builder<BoundingGeometry> {
     companion object {

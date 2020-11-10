@@ -5,12 +5,12 @@ http://www.gnu.org/licenses/lgpl.html
 */
 package org.codice.ddms.v2.builder.summary.geospatial
 
-import org.codice.ddms.v2.summary.geospatial.BoundingGeometry
 import org.codice.ddms.gml.v3.LinearRing
 import org.codice.ddms.gml.v3.Point
 import org.codice.ddms.gml.v3.Polygon
 import org.codice.ddms.gml.v3.Position
 import org.codice.ddms.gml.v3.SrsAttributes
+import org.codice.ddms.v2.summary.geospatial.BoundingGeometry
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
