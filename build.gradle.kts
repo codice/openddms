@@ -88,9 +88,11 @@ val sourcesJar by tasks.registering(Jar::class) {
 
 publishing {
     repositories {
-
-        var urlString = "http://artifacts.codice.org/content/repositories/releases/"
-        if (Versions.project.endsWith("SNAPSHOT")) urlString = "http://artifacts.codice.org/content/repositories/snapshots/"
+        val publishUrl = project.findProperty("publishUrl") as? String
+        val urlString = publishUrl ?: if (Versions.project.endsWith("SNAPSHOT"))
+            "http://artifacts.codice.org/content/repositories/snapshots/"
+        else
+            "http://artifacts.codice.org/content/repositories/releases/"
 
         maven {
             url = uri(urlString)
