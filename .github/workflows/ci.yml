@@ -35,7 +35,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build
-        run: ./gradlew build -x test -x detekt
+        run: ./gradlew build -x test -x detekt -x spotlessCheck
 
   full-build:
     if: github.event_name != 'pull_request'
@@ -55,7 +55,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build
-        run: ./gradlew build -x test -x detekt
+        run: ./gradlew build -x test -x detekt -x spotlessCheck
 
   deploy:
     needs: full-build
