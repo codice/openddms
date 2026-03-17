@@ -11,10 +11,10 @@ object Versions {
     const val javaTarget = "1.8"
     const val dokkaJvmVersion = 8
 
-    const val kotlin = "1.3.72"
-    const val dokka = "0.9.17"
-    const val spotless = "5.7.0"
-    const val detekt = "1.14.2"
+    const val kotlin = "1.7.22"
+    const val dokka = "1.7.20"
+    const val spotless = "6.12.0"
+    const val detekt = "1.22.0"
     const val slf4j = "1.7.25"
     const val mockito = "2.24.0"
 }

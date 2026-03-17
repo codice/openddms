@@ -20,7 +20,7 @@ version = Versions.project
 description = "Library for parsing and creating DoD Discovery Metadata Specification (DDMS) documents."
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencyLocking {
@@ -66,7 +66,7 @@ spotless {
 }
 
 detekt {
-    input = files("src/main/kotlin", "buildSrc/src/main/kotlin")
+    source = files("src/main/kotlin", "buildSrc/src/main/kotlin")
     config = files("detekt.yml")
 }
 
@@ -75,14 +75,16 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     exclude("**/build/**")
 }
 
-tasks.withType<DokkaTask> {
-    outputFormat = "html"
-    outputDirectory = "$buildDir/dokka"
-    jdkVersion = Versions.dokkaJvmVersion
+tasks.withType<DokkaTask>().configureEach {
+    dokkaSourceSets {
+        configureEach {
+            jdkVersion.set(Versions.dokkaJvmVersion)
+        }
+    }
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
-    classifier = "sources"
+    archiveClassifier.set("sources")
     from(sourceSets.main.get().allSource)
 }
 
